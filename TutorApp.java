@@ -14,7 +14,8 @@ public class TutorApp extends JFrame{
     private JTextField userNameField, currentLevelField;
     private JTextArea outputArea;
     private JButton startButton;
-    private JButton conjunctionButton, disjunctionButton, negationButton, implicationButton;
+    private JButton hintButton;
+    private JButton CICButton, expressingConditionalsButton, definitionsButton, truthTableButton, logicalExpressionsButton;
 
     public TutorApp(){
         setTitle("Tutor App");
@@ -36,22 +37,29 @@ public class TutorApp extends JFrame{
         add(startButton);
 
         // Adding the logic buttons
-        conjunctionButton = new JButton("AND (∧)");
-        add(conjunctionButton);
+        CICButton = new JButton("Converse, Inverse and Contrapositive");
+        add(CICButton);
 
-        disjunctionButton = new JButton("OR (∨)");
-        add(disjunctionButton);
+        expressingConditionalsButton = new JButton("Expressing Conditionals");
+        add(expressingConditionalsButton);
 
-        negationButton = new JButton("NOT (¬)");
-        add(negationButton);
+        definitionsButton = new JButton("Definitions");
+        add(definitionsButton);
 
-        implicationButton = new JButton("IMPLICATION (→)");
-        add(implicationButton);
+        truthTableButton = new JButton("Truth Table");
+        add(truthTableButton);
+
+        logicalExpressionsButton = new JButton("Logical Expressions");
+        add(logicalExpressionsButton);
 
         // Output area
         outputArea = new JTextArea(25,30);
         outputArea.setEditable(false);
         add(new JScrollPane(outputArea));
+
+        // Integrating the feedback engine and the hint system
+        feedbackEngine = new FeedbackEngine();
+        hintSystem = new HintSystem();
 
         // Action Listeners
         startButton.addActionListener(e -> {
@@ -61,14 +69,32 @@ public class TutorApp extends JFrame{
             else outputArea.append("Input something in your username and level! \n");
         });
 
-        conjunctionButton.addActionListener(e -> {
-            Topic t = topics.get(1);
-            outputArea.append("\n " + getTitle() + " \n");
-            t.displayContent();
+        CICButton.addActionListener(e -> {
+            cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement");
+            outputArea.append("\n " + cicTopic.title + " \n" + cicTopic.description + " \n");
+            
+            cicTopic.addContent("Let's talk converses of conditional statements");
+            cicTopic.addContent("Inverses of conditional statements");
+            cicTopic.addContent("Contrapositives of conditional statements");
+            
+            cicTopic.displayContent();
         });
 
-        disjunctionButton.addActionListener(e -> {
-            outputArea.append("Disjunction rule");
+        definitionsButton.addActionListener(e -> {
+            Definitions def = new Definitions("Definitions", "Basic logcial definitions");
+            def.addContent("A proposition must be a declarative statement");
+            def.addContent("Logical connectives include AND, OR, NOT and IF-THEN");
+
+            def.displayContent();
+
+            Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 1, feedbackEngine, hintSystem);
+            ex1.addOption("A. The sky is blue");
+            ex1.addOption("B. Close the door!");
+            ex1.addOption("C. Is it raining?");
+            ex1.addOption("D. Look at me");
+
+            def.addExercise(ex1);
+            def.startExercises();
         });
 
         negationButton.addActionListener(e -> {
@@ -80,22 +106,6 @@ public class TutorApp extends JFrame{
         });
 
         setVisible(true);
-
-        feedbackEngine = new FeedbackEngine();
-        hintSystem = new HintSystem();
-        topics = new ArrayList<>();
-
-        Definitions def = new Definitions("Definitions", "Basic logcial definitions");
-        def.addContent("A proposition is a declarative statement...");
-        def.addContent("Logical connectives include AND, OR, NOT...");
-
-        Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 5, feedbackEngine, hintSystem);
-        ex1.addOption("A. The sky is blue");
-        ex1.addOption("B. Close the door!");
-        ex1.addOption("C. Is it raining?");
-
-        def.addExercise(ex1);
-        topics.add(def);
     }
 
     public static void main(String[] args) {
@@ -367,6 +377,7 @@ class HintSystem {
 class ScoreTracker{
 
 }
+
 
 
 
