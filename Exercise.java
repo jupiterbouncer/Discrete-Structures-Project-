@@ -46,10 +46,8 @@ public class Exercise {
     public void displayQuestion(){
        System.out.println("Question: " + question); 
        if (!options.isEmpty()){
-        int index = 1;
         for (String option: options){
-            System.out.println(index + ")" + option);
-            index++;
+            System.out.println(option);
         }
     }
 }
@@ -94,3 +92,4 @@ public class Exercise {
         return points;
     }
 }
+
