@@ -3,161 +3,105 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
-public class TutorApp {
+import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.*;
 
-    // feedback and scoring system
-}
+public class TutorApp extends JFrame{
+    private ArrayList<Topic> topics;
+    private FeedbackEngine feedbackEngine;
+    private HintSystem hintSystem;
+    private User currentUser;
 
-class User {
-    /* This class represents a learner using our programme
-    Contains learner's identity and progress
-     */
-    // Attributes
-    private String username;                      // Stores user's name
-    private int currentLevel;                     // Stores user's current difficulty level
-    private String currentTopicSection;           // Indicates the section the user has reached
-    private ScoreTracker scoreTracker;            // Stores user's score
-    private int availableHints;                   // stores number of hints left
-    private HashSet<String> completedModules;     // Stores completed modules in a HashSet
+    private JTextField userNameField, currentLevelField;
+    private JTextArea outputArea;
+    private JButton startButton;
+    private JButton conjunctionButton, disjunctionButton, negationButton, implicationButton;
 
-    // Constructor
-    public User(String username){
-        this.username = username;
-        this.currentLevel = 1;                            // Makes every user begin from difficulty level 1
-        this.currentTopicSection = "Definitions";         // Definitions should be where each user starts from
-        this.availableHints = 3;                          // Users begin with 3 hints
-        this.scoreTracker = new ScoreTracker();
-        this.completedModules = new HashSet<>();
+    public TutorApp(){
+        setTitle("Tutor App");
+        setSize(800,600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        add(new JLabel("Username: "));
+        userNameField = new JTextField(15);
+        add(userNameField);
+
+        add(new JLabel("Current level: "));
+        currentLevelField = new JTextField(2);
+        add(currentLevelField);
+
+        // Initializing the START button
+        startButton = new JButton("START");
+        System.out.println("Start button clicked!");
+        add(startButton);
+
+        // Adding the logic buttons
+        conjunctionButton = new JButton("AND (∧)");
+        add(conjunctionButton);
+
+        disjunctionButton = new JButton("OR (∨)");
+        add(disjunctionButton);
+
+        negationButton = new JButton("NOT (¬)");
+        add(negationButton);
+
+        implicationButton = new JButton("IMPLICATION (→)");
+        add(implicationButton);
+
+        // Output area
+        outputArea = new JTextArea(25,30);
+        outputArea.setEditable(false);
+        add(new JScrollPane(outputArea));
+
+        // Action Listeners
+        startButton.addActionListener(e -> {
+            String user = userNameField.getText();
+            String level = currentLevelField.getText();
+            if (!(user == null || user.isBlank())) outputArea.append("Welcome " + user + "! Starting at level " + level + "\n");
+            else outputArea.append("Input something in your username and level! \n");
+        });
+
+        conjunctionButton.addActionListener(e -> {
+            Topic t = topics.get(1);
+            outputArea.append("\n " + getTitle() + " \n");
+            t.displayContent();
+        });
+
+        disjunctionButton.addActionListener(e -> {
+            outputArea.append("Disjunction rule");
+        });
+
+        negationButton.addActionListener(e -> {
+            outputArea.append("Negation rule");
+        });
+
+        implicationButton.addActionListener(e -> {
+            outputArea.append("Implication rule");
+        });
+
+        setVisible(true);
+
+        feedbackEngine = new FeedbackEngine();
+        hintSystem = new HintSystem();
+        topics = new ArrayList<>();
+
+        Definitions def = new Definitions("Definitions", "Basic logcial definitions");
+        def.addContent("A proposition is a declarative statement...");
+        def.addContent("Logical connectives include AND, OR, NOT...");
+
+        Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 5, feedbackEngine, hintSystem);
+        ex1.addOption("A. The sky is blue");
+        ex1.addOption("B. Close the door!");
+        ex1.addOption("C. Is it raining?");
+
+        def.addExercise(ex1);
+        topics.add(def);
     }
 
-    //Getters and setters
-    public String getUserName() {
-        return username;
-    }
-
-    public void setUserName(String userName) {
-        this.username = userName;
-    }
-
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
-
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
-
-    public String getCurrentTopicSection() {
-        return currentTopicSection;
-    }
-
-    public void setCurrentTopicSection(String currentTopicSection) {
-        this.currentTopicSection = currentTopicSection;
-    }
-
-    public class ScoreTracker {
-        /* This class tracks a user's performance.
-           It stores how many questions the user has attempted, how many they got correct, and their streaks.
-        */
-        // Attributes
-        private int totalQuestionsAttempted;                    // total number of questions attempted
-        private int totalCorrectAnswers;                        // total number of questions answered correctly
-        private int currentStreak;                              // Current streak of correct answers
-        private int maxStreak;                                  // highest streak ever achieved
-
-        // Getters
-        public int getTotalQuestionsAttempted() {
-            return totalQuestionsAttempted;
-        }
-        public int getTotalCorrectAnswers() {
-            return totalCorrectAnswers;
-        }
-        public int getCurrentStreak() {
-            return currentStreak;
-        }
-        public int getMaxStreak() {
-            return maxStreak;
-        }
-
-        // Constructor
-        public ScoreTracker() {
-            totalQuestionsAttempted = 0;
-            totalCorrectAnswers = 0;
-            currentStreak = 0;
-            maxStreak = 0;
-        }
-
-        // Methods
-        // Reecords an attempt to answer a question and updates streak
-        public void recordAttemptedQuestion(boolean isCorrect) {
-            totalQuestionsAttempted++;
-
-            if (isCorrect) {
-                totalCorrectAnswers++;
-                currentStreak++;
-
-                if (currentStreak > maxStreak) {
-                    maxStreak = currentStreak;
-                }
-            }
-            else {
-                currentStreak = 0;                  // reset streak if user gets an answer wrong
-            }
-        }
-
-        // Returns accuracy as a percentage
-        public double getAccuracy() {
-            if (totalQuestionsAttempted == 0) {
-                return 0.0;
-            }
-            return (double) totalCorrectAnswers / totalQuestionsAttempted * 100.0;
-        }
-
-        // Resets all statistics
-        public void resetScores() {
-            totalQuestionsAttempted = 0;
-            totalCorrectAnswers = 0;
-            currentStreak = 0;
-            maxStreak = 0;
-        }
-
-
-    }
-
-
-    public int getAvailableHints() {
-        return availableHints;
-    }
-
-    // Methods
-    // Checks if a user can use any more hints
-    public boolean canUseHint(){
-        return availableHints > 0;
-    }
-
-    // Method for decrementing hints
-    public void useHint(){
-        if (canUseHint()) availableHints--;
-    }
-
-    // Method to give user's hints possibly as a reward
-    public void addHint(int n){
-        if (n > 0) availableHints += n;
-    }
-
-    // Method to add a module to the hashset of completed modules
-    public void updateCompletedModules(String moduleName){
-        completedModules.add(moduleName);
-    }
-
-    // Checks if a user has completed a particular module
-    public boolean hasCompletedModule(String moduleName){
-        return completedModules.contains(moduleName);
-    }
-
-    // Checks the modules that have been completed
-    public HashSet<String> getCompletedModules(){
-        return completedModules;
+    public static void main(String[] args) {
+        new TutorApp();
     }
 }
 
@@ -511,3 +455,4 @@ class HintSystem {
 class ScoreTracker{
 
 }
+
