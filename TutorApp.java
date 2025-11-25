@@ -63,9 +63,8 @@ public class TutorApp extends JFrame{
 
         // Action Listeners
         startButton.addActionListener(e -> {
-            String user = userNameField.getText();
-            String level = currentLevelField.getText();
-            if (!(user == null || user.isBlank())) outputArea.append("Welcome " + user + "! Starting at level " + level + "\n");
+            User user = new User(userNameField.getText());
+            if (!(user.getName() == null || user.getName().isBlank())) outputArea.append("Welcome " + user.getName() + "! Starting at level " + user.getLevel() + "\n");
             else outputArea.append("Input something in your username and level! \n");
         });
 
@@ -389,6 +388,7 @@ class HintSystem {
 class ScoreTracker{
 
 }
+
 
 
 
