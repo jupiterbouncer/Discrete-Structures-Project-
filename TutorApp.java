@@ -78,6 +78,14 @@ public class TutorApp extends JFrame{
             cicTopic.addContent("Contrapositives of conditional statements");
             
             cicTopic.displayContent();
+
+            Exercise ex1 = new Exercise("CIC_Q1", "What is the converse of 'If Jamal comes to class, then there is a quiz'?", "C", 1, feedbackEngine, hintSystem);
+            ex1.addOption("A. If there is no quiz, then Jamal doesn't come to class");
+            ex1.addOption("B. If Jamal doesn't come to class, then there is no quiz");
+            ex1.addOption("C. If there is a quiz, then Jamal comes to class");
+
+            cicTopic.addExercise(ex1);
+            cicTopic.startExercises();
         });
 
         definitionsButton.addActionListener(e -> {
@@ -97,12 +105,16 @@ public class TutorApp extends JFrame{
             def.startExercises();
         });
 
-        negationButton.addActionListener(e -> {
-            outputArea.append("Negation rule");
+        expressingConditionalsButton.addActionListener(e -> {
+            
         });
 
-        implicationButton.addActionListener(e -> {
-            outputArea.append("Implication rule");
+        truthTableButton.addActionListener(e -> {
+            
+        });
+
+        logicalExpressionsButton.addActionListener(e -> {
+            
         });
 
         setVisible(true);
@@ -377,6 +389,7 @@ class HintSystem {
 class ScoreTracker{
 
 }
+
 
 
 
