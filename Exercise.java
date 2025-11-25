@@ -55,7 +55,7 @@ public class Exercise {
     // Collecting a user's answer
     public boolean checkAnswer(){
         System.out.print("Your answer: ");
-        userAnswer = JOptionPane.showInputDialog(null, "Enter your answer: ");
+        userAnswer = JOptionPane.showInputDialog(null, "Enter the letter to your answer: ");
 
         answered = true;
 
@@ -64,6 +64,7 @@ public class Exercise {
             return true;
         }
 
+        System.out.println("Wrong answer");
         // Refers to the hasmap containing the exercise ID and the user answer
         System.out.println(feedbackEngine.analyzeError(this, userAnswer));
         return false;
@@ -92,4 +93,5 @@ public class Exercise {
         return points;
     }
 }
+
 
