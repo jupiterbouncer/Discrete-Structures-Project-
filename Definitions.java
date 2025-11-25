@@ -1,13 +1,6 @@
 import java.util.ArrayList;
 
-public interface Topic {
-    void displayContent();
-    void startExercises();
-    void addExercise(Exercise exercise);
-    String getTitle();
-}
-
-class Definitions implements Topic{
+public class Definitions{
     // Topic covering the definitions
 
     // Basic details
@@ -195,4 +188,5 @@ class CIC {
         exercises.add(ex);
         totalPoints += ex.getPoints();
     }
+
 }
