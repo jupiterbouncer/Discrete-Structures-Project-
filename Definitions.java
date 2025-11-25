@@ -57,6 +57,7 @@ public class Definitions{
 
             if (correct) {
                 score += exercise.getPoints();
+                System.out.println(getCompletionRate() + "%");
             } else {
                 System.out.println("Incorrect. Hint: " + exercise.getHint());
             }
@@ -82,3 +83,4 @@ public class Definitions{
         totalPoints += ex.getPoints();
     }
 }
+
