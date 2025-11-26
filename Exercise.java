@@ -19,9 +19,10 @@ public class Exercise {
     private FeedbackEngine feedbackEngine;
     private HintSystem hintSystem;
 
+    private OutputHandler outputHandler;
+
     // Constructor
-    public Exercise(String exerciseID, String question, String correctAnswer, int points,
-        FeedbackEngine feedbackEngine, HintSystem hintSystem){
+    public Exercise(String exerciseID, String question, String correctAnswer, int points, FeedbackEngine feedbackEngine, HintSystem hintSystem, OutputHandler outputHandler){
         this.exerciseID = exerciseID;
         this.question = question;
         this.correctAnswer = correctAnswer;
@@ -30,6 +31,7 @@ public class Exercise {
         this.feedbackEngine = feedbackEngine;
         this.hintSystem = hintSystem;
         this.answered = false;
+        this.outputHandler = outputHandler;
     }
 
     // Multiple choice questions
@@ -44,29 +46,28 @@ public class Exercise {
 
     // MCQ format
     public void displayQuestion(){
-       System.out.println("Question: " + question); 
+       outputHandler.print("Question: " + question); 
        if (!options.isEmpty()){
         for (String option: options){
-            System.out.println(option);
+            outputHandler.print(option);
         }
     }
 }
 
     // Collecting a user's answer
     public boolean checkAnswer(){
-        System.out.print("Your answer: ");
-        userAnswer = JOptionPane.showInputDialog(null, "Enter the letter to your answer: ");
+        userAnswer = JOptionPane.showInputDialog(null, "Enter the letter corresponding to your answer: ");
 
         answered = true;
 
         if (userAnswer.equalsIgnoreCase(correctAnswer)){
-            System.out.println("Correct");
+            outputHandler.print("Correct");
             return true;
         }
 
-        System.out.println("Wrong answer");
+        outputHandler.print("Wrong answer");
         // Refers to the hasmap containing the exercise ID and the user answer
-        System.out.println(feedbackEngine.analyzeError(this, userAnswer));
+        outputHandler.print(feedbackEngine.analyzeError(this, userAnswer));
         return false;
     }
 
@@ -77,9 +78,31 @@ public class Exercise {
 
     // This is used in the FeedbackEngine to provide the appropriate suggestion to a user's error
     public String detectErrorType(String userAnswer){
-        if (exerciseID.contains("CIC") && userAnswer.contains("¬p → ¬q")){
-            return "inverse_contrapositive";
+
+        // For question 1 of the CIC topic
+        if (exerciseID.contains("CIC_Q1") && userAnswer.contains("A")){
+            return "contrapositive_CIC_Q1";
         }
+        if (exerciseID.contains("CIC_Q1") && userAnswer.contains("B")){
+            return "inverse_CIC_Q1";
+        }
+
+        // For question 2 of the CIC topic
+        if (exerciseID.contains("CIC_Q2") && userAnswer.contains("B")){
+            return "contrapositive_CIC_Q2";
+        }
+        if (exerciseID.contains("CIC_Q2") && userAnswer.contains("C")){
+            return "converse_CIC_Q2";
+        }
+
+        // For question 3 of the CIC topic
+        if (exerciseID.contains("CIC_Q3") && userAnswer.contains("A")){
+            return "inverse_CIC_Q3";
+        }
+        if (exerciseID.contains("CIC_Q3") && userAnswer.contains("C")){
+            return "converse_CIC_Q3";
+        }
+
         return "generic_error";
     }
 
