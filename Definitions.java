@@ -17,7 +17,9 @@ public class Definitions{
     private boolean completed;
     private int hintCount;
 
-    public Definitions(String title, String description){
+    private OutputHandler outputHandler;
+
+    public Definitions(String title, String description, OutputHandler outputHandler){
         this.title = title;
         this.description = description;
         this.content = new ArrayList<>();
@@ -26,6 +28,7 @@ public class Definitions{
         this.score = 0;
         this.completed = false;
         this.hintCount = 0;
+        this.outputHandler = outputHandler;
     }
 
     public String getTitle(){
@@ -39,17 +42,16 @@ public class Definitions{
     // Display lesson material
     public void displayContent(){
         int count = 1;
-        System.out.println("===" + title + "===");
+        outputHandler.print("===" + title + "===");
         for (String section : content){
-            System.out.println(count + "." + section);
-            System.out.println();
+            outputHandler.print(count + "." + section);
             count++;
         }
     }
 
     // Run exercises
     public void startExercises(){
-        System.out.println("Starting exercises for: " + title);
+        outputHandler.print("Starting exercises for: " + title);
         for (Exercise exercise : exercises){
             exercise.displayQuestion();
 
@@ -57,13 +59,14 @@ public class Definitions{
 
             if (correct) {
                 score += exercise.getPoints();
-                System.out.println(getCompletionRate() + "%");
+                outputHandler.print(getCompletionRate() + "%");
             } else {
-                System.out.println("Incorrect. Hint: " + exercise.getHint());
+                outputHandler.print("Incorrect. Hint: " + exercise.getHint());
             }
+            outputHandler.print("\n");
         }
-        completed = true;
-        System.out.println("You scored " + score + "/" + totalPoints);
+        this.completed = true;
+        outputHandler.print("You scored " + score + "/" + totalPoints + "(" + ((int) score/totalPoints * 100) + "%)");
     }
 
     // Progress calculation
@@ -77,10 +80,16 @@ public class Definitions{
         return (double) completedCount / exercises.size();
     }
 
+    // Add lesson material
+    public void addContent(String text){
+        this.content.add(text);
+    }
+
     // Add an exercise to this topic
     public void addExercise(Exercise ex){
         exercises.add(ex);
         totalPoints += ex.getPoints();
     }
+    
 }
 
