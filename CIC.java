@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class CIC {
     // Topic covering the converse, inverse, and contrapositive of a conditional
 
@@ -15,8 +17,10 @@ public class CIC {
     private boolean completed;
     private int hintCount;
 
+    private OutputHandler outputHandler;
+
     // Constructor
-    public CIC(String title, String description){
+    public CIC(String title, String description, OutputHandler outputHandler){
         this.title = title;
         this.description = description;
         this.content = new ArrayList<>();
@@ -25,6 +29,15 @@ public class CIC {
         this.score = 0;
         this.completed = false;
         this.hintCount = 0;
+        this.outputHandler = outputHandler;
+    }
+
+    public String getTitle(){
+        return this.title;
+    }
+
+    public String getDescription(){
+        return this.description;
     }
 
     public int getPoints(){
@@ -38,18 +51,15 @@ public class CIC {
 
     // Display lesson material
     public void displayContent(){
-        int count = 1;
-        System.out.println("===" + title + "===");
+        outputHandler.print("===" + title + "===");
         for (String section : content){
-            System.out.println(count + "." + section);
-            System.out.println();
-            count++;
+            outputHandler.print(section);
         }
     }
 
     // Run exercises
     public void startExercises(){
-        System.out.println("Starting exercises for: " + title);
+        outputHandler.print("Starting exercises for: " + title);
         for (Exercise exercise : exercises){
             exercise.displayQuestion();
 
@@ -58,11 +68,13 @@ public class CIC {
             if (correct) {
                 score += exercise.getPoints();
             } else {
-                System.out.println("Incorrect. Hint: " + exercise.getHint());
+                outputHandler.print("Incorrect. Hint: " + exercise.getHint());
             }
+
+            outputHandler.print("\n");
         }
-        completed = true;
-        System.out.println("You scored " + score + "/" + totalPoints);
+        this.completed = true;
+        outputHandler.print("You scored " + score + "/" + totalPoints + "(" + ((int) score/totalPoints * 100) + "%)");
     }
 
     // Progress calculation
