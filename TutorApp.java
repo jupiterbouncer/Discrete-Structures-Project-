@@ -1,12 +1,7 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
 import javax.swing.*;
 import java.awt.*;
 
 public class TutorApp extends JFrame{
-    private ArrayList<Topic> topics;
     private FeedbackEngine feedbackEngine;
     private HintSystem hintSystem;
     private User currentUser;
@@ -16,6 +11,8 @@ public class TutorApp extends JFrame{
     private JButton startButton;
     private JButton hintButton;
     private JButton CICButton, expressingConditionalsButton, definitionsButton, truthTableButton, logicalExpressionsButton;
+
+    private OutputHandler outputHandler = text -> outputArea.append(text + "\n");
 
     public TutorApp(){
         setTitle("Tutor App");
@@ -33,10 +30,9 @@ public class TutorApp extends JFrame{
 
         // Initializing the START button
         startButton = new JButton("START");
-        System.out.println("Start button clicked!");
         add(startButton);
 
-        // Adding the logic buttons
+        // Adding the buttons for topics
         CICButton = new JButton("Converse, Inverse and Contrapositive");
         add(CICButton);
 
@@ -53,7 +49,7 @@ public class TutorApp extends JFrame{
         add(logicalExpressionsButton);
 
         // Output area
-        outputArea = new JTextArea(25,30);
+        outputArea = new JTextArea(25,55);
         outputArea.setEditable(false);
         add(new JScrollPane(outputArea));
 
@@ -61,40 +57,53 @@ public class TutorApp extends JFrame{
         feedbackEngine = new FeedbackEngine();
         hintSystem = new HintSystem();
 
-        // Action Listeners
+        // Action Listeners (Once the start button is clicked, the topics can be accessed)
         startButton.addActionListener(e -> {
-            User user = new User(userNameField.getText());
-            if (!(user.getName() == null || user.getName().isBlank())) outputArea.append("Welcome " + user.getName() + "! Starting at level " + user.getLevel() + "\n");
+            currentUser = new User(userNameField.getText());
+            if (!(currentUser.getUserName() == null || currentUser.getUserName().isBlank())) outputArea.append("Welcome " + currentUser.getUserName() + "! Starting at level " + currentUser.getCurrentLevel() + "\n");
             else outputArea.append("Input something in your username and level! \n");
-        });
 
-        CICButton.addActionListener(e -> {
-            cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement");
-            outputArea.append("\n " + cicTopic.title + " \n" + cicTopic.description + " \n");
+            CICButton.addActionListener(f -> {
+            CIC cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement", outputHandler);
+            outputArea.append("\n " + cicTopic.getTitle() + " \n" + cicTopic.getDescription() + " \n");
             
             cicTopic.addContent("Let's talk converses of conditional statements");
             cicTopic.addContent("Inverses of conditional statements");
             cicTopic.addContent("Contrapositives of conditional statements");
             
             cicTopic.displayContent();
+            outputArea.append("\n");
 
-            Exercise ex1 = new Exercise("CIC_Q1", "What is the converse of 'If Jamal comes to class, then there is a quiz'?", "C", 1, feedbackEngine, hintSystem);
+            Exercise ex1 = new Exercise("CIC_Q1", "What is the converse of 'If Jamal comes to class, then there is a quiz'?", "C", 1, feedbackEngine, hintSystem, outputHandler);
             ex1.addOption("A. If there is no quiz, then Jamal doesn't come to class");
             ex1.addOption("B. If Jamal doesn't come to class, then there is no quiz");
             ex1.addOption("C. If there is a quiz, then Jamal comes to class");
 
+            Exercise ex2 = new Exercise("CIC_Q2", "What is the inverse of 'If Jamal comes to class, then there is a quiz'?", "A", 1, feedbackEngine, hintSystem, outputHandler);
+            ex1.addOption("A. If Jamal doesn't come to class, then there is no quiz");
+            ex1.addOption("B. If there is no quiz, then Jamal doesn't come to class");
+            ex1.addOption("C. If there is a quiz, then Jamal comes to class");
+
+            Exercise ex3 = new Exercise("CIC_Q3", "What is the contrapositive of 'If Jamal comes to class, then there is a quiz'?", "B", 1, feedbackEngine, hintSystem, outputHandler);
+            ex1.addOption("A. If Jamal doesn't come to class, then there is no quiz");
+            ex1.addOption("B. If there is no quiz, then Jamal doesn't come to class");
+            ex1.addOption("C. If there is a quiz, then Jamal comes to class");
+
             cicTopic.addExercise(ex1);
+            cicTopic.addExercise(ex2);
+            cicTopic.addExercise(ex3);
             cicTopic.startExercises();
         });
 
-        definitionsButton.addActionListener(e -> {
-            Definitions def = new Definitions("Definitions", "Basic logcial definitions");
+        definitionsButton.addActionListener(g -> {
+            Definitions def = new Definitions("Definitions", "Basic logcial definitions", outputHandler);
             def.addContent("A proposition must be a declarative statement");
             def.addContent("Logical connectives include AND, OR, NOT and IF-THEN");
 
             def.displayContent();
+            outputArea.append("\n");
 
-            Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 1, feedbackEngine, hintSystem);
+            Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 1, feedbackEngine, hintSystem, outputHandler);
             ex1.addOption("A. The sky is blue");
             ex1.addOption("B. Close the door!");
             ex1.addOption("C. Is it raining?");
@@ -104,16 +113,18 @@ public class TutorApp extends JFrame{
             def.startExercises();
         });
 
-        expressingConditionalsButton.addActionListener(e -> {
+        expressingConditionalsButton.addActionListener(h -> {
             
         });
 
-        truthTableButton.addActionListener(e -> {
+        truthTableButton.addActionListener(i -> {
             
         });
 
-        logicalExpressionsButton.addActionListener(e -> {
+        logicalExpressionsButton.addActionListener(j -> {
             
+        });
+
         });
 
         setVisible(true);
