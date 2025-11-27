@@ -118,6 +118,71 @@ public class TutorApp extends JFrame{
         });
 
         truthTableButton.addActionListener(i -> {
+            TruthTables tt = new TruthTables("Truth Tables", "Construct truth tables for the basic logical connectives",outputHandler, feedbackEngine,hintSystem);
+
+            tt.addContent("A truth table lists all the possible truth values of statements");
+            tt.addContent("The truth value of the compound statement depends on its components.");
+            tt.addContent("Each of the main connectives has its own truth table");
+
+            tt.displayContent();
+
+            tt.showNot();
+            tt.showAnd();
+            tt.showOr();
+            tt.showImplication();
+            tt.showBiconditional();
+
+            //exercises
+
+            Exercise ex1 = new Exercise(
+                    "TT1",
+                    "In the truth table for AND, when is P^Q true?",
+                    "A",
+                    1,
+                    feedbackEngine,
+                    hintSystem,
+                    outputHandler
+            );
+            ex1.addOption("A. Only when P and Q are both true");
+            ex1.addOption("B. When at least one is true");
+            ex1.addOption("C. When both are false");
+            ex1.addOption("D. When P is false");
+            tt.addExercise(ex1);
+
+            Exercise ex2 = new Exercise(
+                    "TT2",
+                    "In the implication (P → Q), which row is false?",
+                    "C",
+                    1,
+                    feedbackEngine,
+                    hintSystem,
+                    outputHandler
+            );
+            ex2.addOption("A. T, T");
+            ex2.addOption("B. F, T");
+            ex2.addOption("C. T, F");
+            ex2.addOption("D. F, F");
+            tt.addExercise(ex2);
+
+            Exercise ex3 = new Exercise(
+                    "TT3",
+                    "In the biconditional (↔), when is the statement true?",
+                    "D",
+                    1,
+                    feedbackEngine,
+                    hintSystem,
+                    outputHandler
+            );
+            ex3.addOption("A. Always true");
+            ex3.addOption("B. When P is true");
+            ex3.addOption("C. When Q is false");
+            ex3.addOption("D. When P and Q have the same truth value");
+            tt.addExercise(ex3);
+
+            tt.startExercises();
+
+
+
             
         });
 
