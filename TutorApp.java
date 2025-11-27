@@ -53,11 +53,15 @@ public class TutorApp extends JFrame{
         feedbackEngine = new FeedbackEngine();
         hintSystem = new HintSystem();
 
+        outputArea.append("Enter your name and click on start to proceed \n");
+
         // Action Listeners (Once the start button is clicked, the topics can be accessed)
         startButton.addActionListener(e -> {
             currentUser = new User(userNameField.getText());
-            if (!(currentUser.getUserName() == null || currentUser.getUserName().isBlank())) outputArea.append("Welcome " + currentUser.getUserName() + "! Starting at level " + currentUser.getCurrentLevel() + "\n");
+            if (!(currentUser.getUserName() == null || currentUser.getUserName().isBlank())) outputArea.append("Welcome " + currentUser.getUserName() + " to your Tutor App! \n");
             else outputArea.append("Input something in your username and level! \n");
+
+            outputArea.append("Click any topic button to start \n");
 
             CICButton.addActionListener(f -> {
 
@@ -74,10 +78,12 @@ public class TutorApp extends JFrame{
             "\n The INVERSE of p → q is ¬p → ¬q i.e If ¬p, then ¬q" +
             "\n The CONTRAPOSITIVE of p → q is ¬q → ¬p i.e If ¬q, then ¬p");
 
+            cicTopic.displayContent();
+
             outputArea.append("Press start when you're ready to begin the exercise");
+
             startButton.addActionListener(m -> {
 
-            cicTopic.displayContent();
             outputArea.append("\n");
 
             outputHandler.print("Starting exercises for: " + cicTopic.getTitle());
@@ -119,6 +125,10 @@ public class TutorApp extends JFrame{
             def.displayContent();
             outputArea.append("\n");
 
+            outputArea.append("Press start when you're ready to begin the exercise");
+            
+            startButton.addActionListener(m -> {
+
             Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 1, feedbackEngine, hintSystem, outputHandler);
             ex1.addOption("A. The sky is blue");
             ex1.addOption("B. Close the door!");
@@ -126,7 +136,11 @@ public class TutorApp extends JFrame{
             ex1.addOption("D. Look at me");
 
             def.addExercise(ex1);
+
+
             def.startExercises();
+
+            });
         });
 
         truthTableButton.addActionListener(i -> {
@@ -145,6 +159,9 @@ public class TutorApp extends JFrame{
             tt.displayContent();
 
             //exercises
+            outputArea.append("Press start when you're ready to begin the exercise");
+            
+            startButton.addActionListener(m -> {
 
             Exercise ex1 = new Exercise(
                     "TT1",
@@ -192,6 +209,7 @@ public class TutorApp extends JFrame{
             tt.addExercise(ex3);
 
             tt.startExercises();
+        });
             
         });
 
@@ -228,6 +246,9 @@ public class TutorApp extends JFrame{
             lc.displayContent();
 
             //Exercises
+            outputArea.append("Press start when you're ready to begin the exercise");
+            
+            startButton.addActionListener(m -> {
             Exercise ex1 = new Exercise (
                     "LC_Q1",
                     "Which connective returns the opposite truth value of a proposition p",
@@ -260,6 +281,8 @@ public class TutorApp extends JFrame{
             lc.addExercise(ex2);
             lc.startExercises();
         });
+        
+        });
 
         });
 
@@ -270,5 +293,4 @@ public class TutorApp extends JFrame{
         new TutorApp().getContentPane().setBackground(Color.GRAY);;
     }
 }
-
 
