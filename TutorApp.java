@@ -6,7 +6,7 @@ public class TutorApp extends JFrame{
     private HintSystem hintSystem;
     private User currentUser;
 
-    private JTextField userNameField, currentLevelField;
+    private JTextField userNameField;
     private JTextArea outputArea;
     private JButton startButton;
     private JButton hintButton;
@@ -23,10 +23,6 @@ public class TutorApp extends JFrame{
         add(new JLabel("Username: "));
         userNameField = new JTextField(15);
         add(userNameField);
-
-        add(new JLabel("Current level: "));
-        currentLevelField = new JTextField(2);
-        add(currentLevelField);
 
         // Initializing the START button
         startButton = new JButton("START");
@@ -274,4 +270,5 @@ public class TutorApp extends JFrame{
         new TutorApp().getContentPane().setBackground(Color.GRAY);;
     }
 }
+
 
