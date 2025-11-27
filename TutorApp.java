@@ -92,7 +92,6 @@ public class TutorApp extends JFrame{
             ex1.addOption("C. If there is a quiz, then Jamal comes to class");
 
             cicTopic.addExercise(ex1);
-            cicTopic.startExercises(ex1);
 
             outputArea.append("\n");
             
@@ -102,7 +101,6 @@ public class TutorApp extends JFrame{
             ex2.addOption("C. If there is a quiz, then Jamal comes to class");
 
             cicTopic.addExercise(ex2);
-            cicTopic.startExercises(ex2);
 
             outputArea.append("\n");
 
@@ -112,7 +110,7 @@ public class TutorApp extends JFrame{
             ex3.addOption("C. If there is a quiz, then Jamal comes to class");
 
             cicTopic.addExercise(ex3);
-            cicTopic.startExercises(ex3);
+            cicTopic.startExercises();
             });
 
         });
@@ -142,13 +140,13 @@ public class TutorApp extends JFrame{
             tt.addContent("The truth value of the compound statement depends on its components.");
             tt.addContent("Each of the main connectives has its own truth table");
 
-            tt.displayContent();
-
             tt.showNot();
             tt.showAnd();
             tt.showOr();
             tt.showImplication();
             tt.showBiconditional();
+
+            tt.displayContent();
 
             //exercises
 
@@ -198,15 +196,10 @@ public class TutorApp extends JFrame{
             tt.addExercise(ex3);
 
             tt.startExercises();
-
-
-
             
         });
 
-        logicalExpressionsButton.addActionListener(j -> {
-            
-        });
+
         logicalConnectivesButton.addActionListener(k -> {
             LogicalConnectives lc = new LogicalConnectives (
                     "Logical Connectives",
@@ -278,7 +271,7 @@ public class TutorApp extends JFrame{
     }
 
     public static void main(String[] args) {
-        new TutorApp();
+        new TutorApp().getContentPane().setBackground(Color.GRAY);;
     }
 }
 
