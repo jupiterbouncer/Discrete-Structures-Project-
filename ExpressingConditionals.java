@@ -91,7 +91,7 @@ public class ExpressingConditionals {
 
             this.completed = true;
 
-            if (totalPoints > 0) {
+            if (totalPoints > 0) { // Prevents zero division error
                 int percentage = (int) ((score * 100.0) / totalPoints);
                 outputHandler.print("You scored " + score + "/" + totalPoints + " (" + percentage + "%)");
             } else {
