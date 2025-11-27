@@ -64,39 +64,61 @@ public class TutorApp extends JFrame{
             else outputArea.append("Input something in your username and level! \n");
 
             CICButton.addActionListener(f -> {
+
             CIC cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement", outputHandler);
+
             outputArea.append("\n " + cicTopic.getTitle() + " \n" + cicTopic.getDescription() + " \n");
             
-            cicTopic.addContent("Let's talk converses of conditional statements");
-            cicTopic.addContent("Inverses of conditional statements");
-            cicTopic.addContent("Contrapositives of conditional statements");
-            
+            outputArea.append("\n");
+
+            cicTopic.addContent("Let's talk about the converse, inverse and contrapositive of conditional statements" +
+            "\n We will be considering the different ways of converting the conditional statement (p → q), where p is the premise and q is the antecedent \n" +
+            "\n Most examples at this level will be of the form If p, then q" +
+            "\n The CONVERSE of p → q is q → p i.e If q, then p" +
+            "\n The INVERSE of p → q is ¬p → ¬q i.e If ¬p, then ¬q" +
+            "\n The CONTRAPOSITIVE of p → q is ¬q → ¬p i.e If ¬q, then ¬p");
+
+            outputArea.append("Press start when you're ready to begin the exercise");
+            startButton.addActionListener(m -> {
+
             cicTopic.displayContent();
             outputArea.append("\n");
+
+            outputHandler.print("Starting exercises for: " + cicTopic.getTitle());
 
             Exercise ex1 = new Exercise("CIC_Q1", "What is the converse of 'If Jamal comes to class, then there is a quiz'?", "C", 1, feedbackEngine, hintSystem, outputHandler);
             ex1.addOption("A. If there is no quiz, then Jamal doesn't come to class");
             ex1.addOption("B. If Jamal doesn't come to class, then there is no quiz");
             ex1.addOption("C. If there is a quiz, then Jamal comes to class");
 
+            cicTopic.addExercise(ex1);
+            cicTopic.startExercises(ex1);
+
+            outputArea.append("\n");
+            
             Exercise ex2 = new Exercise("CIC_Q2", "What is the inverse of 'If Jamal comes to class, then there is a quiz'?", "A", 1, feedbackEngine, hintSystem, outputHandler);
-            ex1.addOption("A. If Jamal doesn't come to class, then there is no quiz");
-            ex1.addOption("B. If there is no quiz, then Jamal doesn't come to class");
-            ex1.addOption("C. If there is a quiz, then Jamal comes to class");
+            ex2.addOption("A. If Jamal doesn't come to class, then there is no quiz");
+            ex2.addOption("B. If there is no quiz, then Jamal doesn't come to class");
+            ex2.addOption("C. If there is a quiz, then Jamal comes to class");
+
+            cicTopic.addExercise(ex2);
+            cicTopic.startExercises(ex2);
+
+            outputArea.append("\n");
 
             Exercise ex3 = new Exercise("CIC_Q3", "What is the contrapositive of 'If Jamal comes to class, then there is a quiz'?", "B", 1, feedbackEngine, hintSystem, outputHandler);
-            ex1.addOption("A. If Jamal doesn't come to class, then there is no quiz");
-            ex1.addOption("B. If there is no quiz, then Jamal doesn't come to class");
-            ex1.addOption("C. If there is a quiz, then Jamal comes to class");
+            ex3.addOption("A. If Jamal doesn't come to class, then there is no quiz");
+            ex3.addOption("B. If there is no quiz, then Jamal doesn't come to class");
+            ex3.addOption("C. If there is a quiz, then Jamal comes to class");
 
-            cicTopic.addExercise(ex1);
-            cicTopic.addExercise(ex2);
             cicTopic.addExercise(ex3);
-            cicTopic.startExercises();
+            cicTopic.startExercises(ex3);
+            });
+
         });
 
         definitionsButton.addActionListener(g -> {
-            Definitions def = new Definitions("Definitions", "Basic logcial definitions", outputHandler);
+            Definitions def = new Definitions("Definitions", "Basic logical definitions", outputHandler);
             def.addContent("A proposition must be a declarative statement");
             def.addContent("Logical connectives include AND, OR, NOT and IF-THEN");
 
@@ -111,10 +133,6 @@ public class TutorApp extends JFrame{
 
             def.addExercise(ex1);
             def.startExercises();
-        });
-
-        expressingConditionalsButton.addActionListener(h -> {
-            
         });
 
         truthTableButton.addActionListener(i -> {
@@ -263,3 +281,4 @@ public class TutorApp extends JFrame{
         new TutorApp();
     }
 }
+
