@@ -58,10 +58,15 @@ public class TutorApp extends JFrame{
         // Action Listeners (Once the start button is clicked, the topics can be accessed)
         startButton.addActionListener(e -> {
             currentUser = new User(userNameField.getText());
-            if (!(currentUser.getUserName() == null || currentUser.getUserName().isBlank())) outputArea.append("Welcome " + currentUser.getUserName() + " to your Tutor App! \n");
-            else outputArea.append("Input something in your username and level! \n");
+            if (!(currentUser.getUserName() == null || currentUser.getUserName().isBlank())) {
+
+                outputArea.append("Welcome " + currentUser.getUserName() + " to your Tutor App! \n");
 
             outputArea.append("Click any topic button to start \n");
+
+            logicalConnectivesButton.addActionListener(k -> {
+                ExpressingConditionals ec = new ExpressingConditionals(getTitle(), getName(), outputHandler);
+            });
 
             CICButton.addActionListener(f -> {
 
@@ -281,10 +286,14 @@ public class TutorApp extends JFrame{
             lc.addExercise(ex2);
             lc.startExercises();
         });
-        
-        });
 
         });
+
+            } else {
+                outputArea.append("Input something in your username and level! \n");
+
+        }
+    });
 
         setVisible(true);
     }
