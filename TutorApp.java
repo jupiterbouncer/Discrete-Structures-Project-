@@ -10,7 +10,7 @@ public class TutorApp extends JFrame{
     private JTextArea outputArea;
     private JButton startButton;
     private JButton hintButton;
-    private JButton CICButton, expressingConditionalsButton, definitionsButton, truthTableButton, logicalExpressionsButton;
+    private JButton CICButton, expressingConditionalsButton, definitionsButton, truthTableButton, logicalExpressionsButton, logicalConnectivesButton;
 
     private OutputHandler outputHandler = text -> outputArea.append(text + "\n");
 
@@ -123,6 +123,70 @@ public class TutorApp extends JFrame{
 
         logicalExpressionsButton.addActionListener(j -> {
             
+        });
+        logicalConnectivesButton.addActionListener(k -> {
+            LogicalConnectives lc = new LogicalConnectives (
+                    "Logical Connectives",
+                    "Learn NOT, OR, AND, IMPLICATION, BICONDITIONALS",
+                    outputHandler
+            );
+            lc.addContent("Logical Connectives allow us to combine simple propositions into compound ones");
+            lc.addContent("Common connectives include NOT, AND, OR, Implication and Biconditional");
+
+            Connectives not = new Connectives("Negation", "¬", "A negation reverses the truth value of a proposition");
+            not.addExample("¬p");
+            lc.addConnective(not);
+
+            Connectives and = new Connectives ("Conjunction","∧", "True only if both propositions are true" );
+            and.addExample("p ∧ q");
+            lc.addConnective(and);
+
+            Connectives or = new Connectives("Disjunction", "∨", "Disjunctions are true if at least one of the propositions are true");
+            or.addExample("p ∨ q");
+            lc.addConnective(or);
+
+            Connectives implies = new Connectives("Implication", "→", "Also known as conditional");
+            implies.addExample("p→q");
+            lc.addConnective(implies);
+
+            Connectives iff = new Connectives ("Biconditional",  "p ↔ q", "If and only if" );
+            iff.addExample(" p ↔ q ");
+            lc.addConnective(iff);
+
+            lc.displayContent();
+
+            //Exercises
+            Exercise ex1 = new Exercise (
+                    "LC_Q1",
+                    "Which connective returns the opposite truth value of a proposition p",
+                    "C",
+                    1,
+                    feedbackEngine,
+                    hintSystem,
+                    outputHandler
+                    );
+
+            ex1.addOption("A: ∨ ");
+            ex1.addOption("B: ∧ ");
+            ex1.addOption("C : ¬");
+            ex1.addOption("D : ↔");
+
+            Exercise ex2 = new Exercise (
+                    "LC_Q2",
+                    "The disjunction of, p: I will buy a salad, q: i will buy meat pie is : ",
+                    "A",
+                    1,
+                    feedbackEngine,
+                    hintSystem,
+                    outputHandler
+            );
+            ex2.addOption("A : I will buy a salad or meat pie");
+            ex2.addOption("B: I will buy a salad and meat pie");
+            ex2.addOption("C: If i buy a salad, I will buy meat pie");
+
+            lc.addExercise(ex1);
+            lc.addExercise(ex2);
+            lc.startExercises();
         });
 
         });
