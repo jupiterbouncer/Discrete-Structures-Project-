@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Definitions{
+public class Definitions implements Topic{
     // Topic covering the definitions
 
     // Basic details
@@ -35,6 +35,10 @@ public class Definitions{
         return title;
     }
 
+    public String getDescription(){
+        return description;
+    }
+
     public int getPoints(){
         return this.totalPoints;
     }
@@ -61,12 +65,12 @@ public class Definitions{
                 score += exercise.getPoints();
                 outputHandler.print(getCompletionRate() + "%");
             } else {
-                outputHandler.print("Incorrect. Hint: " + exercise.getHint());
+                outputHandler.print("Incorrect");
             }
             outputHandler.print("\n");
         }
         this.completed = true;
-        outputHandler.print("You scored " + score + "/" + totalPoints + "(" + ((int) score/totalPoints * 100) + "%)");
+        outputHandler.print("You scored " + score + "/" + totalPoints);
     }
 
     // Progress calculation
