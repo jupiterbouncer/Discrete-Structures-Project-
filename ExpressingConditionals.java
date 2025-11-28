@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-public class ExpressingConditionals {
+public class ExpressingConditionals implements Topic {
     // Topic covering the different ways of expressing a conditional statement (p → q)
 
     // Attributes
@@ -82,11 +82,8 @@ public class ExpressingConditionals {
                 if (correct) {
                     score += exercise.getPoints();
                 } else {
-                    outputHandler.print("Incorrect. Hint: " + exercise.getHint());
-                    hintCount++; // track hint usage
+                    outputHandler.print("Incorrect");
                 }
-
-                outputHandler.print("");
             }
 
             this.completed = true;
