@@ -32,7 +32,6 @@ public class FeedbackEngine{
         errorFeedback.put("converse_CIC_Q3", "It looks like you mixed up the converse and the contrapositive"
         + "Remember: The converse of p → q is q → p while the contrapositive should be ¬q → ¬p");
 
-
         // Feedback for the Definitions exercise
         // Exercise 1
         errorFeedback.put("command_DEF_Q1", "");
@@ -74,7 +73,6 @@ public class FeedbackEngine{
 
         // Generic error
         errorFeedback.put("generic_error", "Wrong!");
-
     }
 
     // Retrieves the exercise and the user's answer as arguments for error detection
@@ -92,4 +90,3 @@ public class FeedbackEngine{
         return errorFeedback.getOrDefault(errorType, "Wrong answer, look at your face");
     }
 }
-
