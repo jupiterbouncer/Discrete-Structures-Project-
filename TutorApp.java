@@ -85,7 +85,6 @@ public class TutorApp extends JFrame{
             }
 
             outputArea.append("Welcome " + currentUser.getUserName() + " to your Tutor App! \n");
-            outputArea.append("Click any topic button to start \n");
                 
             if (selectedTopic == null) {
                     outputArea.append("Select a topic first! \n");
@@ -93,15 +92,18 @@ public class TutorApp extends JFrame{
             }
 
             selectedTopic.startExercises();
+            outputArea.append("Click any topic button to start \n");
         });
+        
 
         hintButton.addActionListener(hb -> {
             if (currentExercise == null) {
-                outputArea.append("No active question - start a topic first \n");
+                outputArea.append("No active question - select a topic first \n");
                 return;
             }
 
-            String hint = currentExercise.getHint();
+            currentExercise.requestHint(hintSystem, outputHandler);
+            String hint = currentExercise.getHint(hintSystem);
             outputArea.append("Hint: " + hint + "\n");
         });
 
@@ -205,7 +207,7 @@ public class TutorApp extends JFrame{
 
                 //exercises
                 Exercise ex1 = new Exercise(
-                    "TT1",
+                    "TT_Q1",
                     "In the truth table for AND, when is P ∧ Q true?",
                     "A",
                     1,
@@ -220,7 +222,7 @@ public class TutorApp extends JFrame{
                 tt.addExercise(ex1);
 
                 Exercise ex2 = new Exercise(
-                    "TT2",
+                    "TT_Q2",
                     "In the implication (P → Q), which row is false?",
                     "C",
                     1,
@@ -235,7 +237,7 @@ public class TutorApp extends JFrame{
                 tt.addExercise(ex2);
 
                 Exercise ex3 = new Exercise(
-                    "TT3",
+                    "TT_Q3",
                     "In the biconditional (↔), when is the statement true?",
                     "D",
                     1,
