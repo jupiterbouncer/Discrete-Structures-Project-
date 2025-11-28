@@ -44,8 +44,11 @@ public class TutorApp extends JFrame{
         logicalExpressionsButton = new JButton("Logical Expressions");
         add(logicalExpressionsButton);
 
+        logicalConnectivesButton = new JButton("Logical Connectives");
+        add(logicalConnectivesButton);
+
         // Output area
-        outputArea = new JTextArea(25,55);
+        outputArea = new JTextArea(35,55);
         outputArea.setEditable(false);
         add(new JScrollPane(outputArea));
 
@@ -57,133 +60,135 @@ public class TutorApp extends JFrame{
 
         // Action Listeners (Once the start button is clicked, the topics can be accessed)
         startButton.addActionListener(e -> {
+
             currentUser = new User(userNameField.getText());
             if (!(currentUser.getUserName() == null || currentUser.getUserName().isBlank())) {
 
                 outputArea.append("Welcome " + currentUser.getUserName() + " to your Tutor App! \n");
 
-            outputArea.append("Click any topic button to start \n");
+                outputArea.append("Click any topic button to start \n");
 
-            logicalConnectivesButton.addActionListener(k -> {
-                ExpressingConditionals ec = new ExpressingConditionals(getTitle(), getName(), outputHandler);
-            });
+                } else {
+                    outputArea.append("Input something in your username! \n");
 
-            CICButton.addActionListener(f -> {
-
-            CIC cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement", outputHandler);
-
-            outputArea.append("\n " + cicTopic.getTitle() + " \n" + cicTopic.getDescription() + " \n");
-            
-            outputArea.append("\n");
-
-            cicTopic.addContent("Let's talk about the converse, inverse and contrapositive of conditional statements" +
-            "\n We will be considering the different ways of converting the conditional statement (p → q), where p is the premise and q is the antecedent \n" +
-            "\n Most examples at this level will be of the form If p, then q" +
-            "\n The CONVERSE of p → q is q → p i.e If q, then p" +
-            "\n The INVERSE of p → q is ¬p → ¬q i.e If ¬p, then ¬q" +
-            "\n The CONTRAPOSITIVE of p → q is ¬q → ¬p i.e If ¬q, then ¬p");
-
-            cicTopic.displayContent();
-
-            outputArea.append("Press start when you're ready to begin the exercise");
-
-            startButton.addActionListener(m -> {
-
-            outputArea.append("\n");
-
-            outputHandler.print("Starting exercises for: " + cicTopic.getTitle());
-
-            Exercise ex1 = new Exercise("CIC_Q1", "What is the converse of 'If Jamal comes to class, then there is a quiz'?", "C", 1, feedbackEngine, hintSystem, outputHandler);
-            ex1.addOption("A. If there is no quiz, then Jamal doesn't come to class");
-            ex1.addOption("B. If Jamal doesn't come to class, then there is no quiz");
-            ex1.addOption("C. If there is a quiz, then Jamal comes to class");
-
-            cicTopic.addExercise(ex1);
-
-            outputArea.append("\n");
-            
-            Exercise ex2 = new Exercise("CIC_Q2", "What is the inverse of 'If Jamal comes to class, then there is a quiz'?", "A", 1, feedbackEngine, hintSystem, outputHandler);
-            ex2.addOption("A. If Jamal doesn't come to class, then there is no quiz");
-            ex2.addOption("B. If there is no quiz, then Jamal doesn't come to class");
-            ex2.addOption("C. If there is a quiz, then Jamal comes to class");
-
-            cicTopic.addExercise(ex2);
-
-            outputArea.append("\n");
-
-            Exercise ex3 = new Exercise("CIC_Q3", "What is the contrapositive of 'If Jamal comes to class, then there is a quiz'?", "B", 1, feedbackEngine, hintSystem, outputHandler);
-            ex3.addOption("A. If Jamal doesn't come to class, then there is no quiz");
-            ex3.addOption("B. If there is no quiz, then Jamal doesn't come to class");
-            ex3.addOption("C. If there is a quiz, then Jamal comes to class");
-
-            cicTopic.addExercise(ex3);
-            cicTopic.startExercises();
-            });
-
+            }
         });
 
-        definitionsButton.addActionListener(g -> {
-            Definitions def = new Definitions("Definitions", "Basic logical definitions", outputHandler);
-            def.addContent("A proposition must be a declarative statement");
-            def.addContent("Logical connectives include AND, OR, NOT and IF-THEN");
+                CICButton.addActionListener(f -> {
 
-            def.displayContent();
-            outputArea.append("\n");
+                CIC cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement", outputHandler);
 
-            outputArea.append("Press start when you're ready to begin the exercise");
+                outputArea.append("\n " + cicTopic.getTitle() + " \n" + cicTopic.getDescription() + " \n");
             
-            startButton.addActionListener(m -> {
+                outputArea.append("\n");
 
-            Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 1, feedbackEngine, hintSystem, outputHandler);
-            ex1.addOption("A. The sky is blue");
-            ex1.addOption("B. Close the door!");
-            ex1.addOption("C. Is it raining?");
-            ex1.addOption("D. Look at me");
+                cicTopic.addContent("Let's talk about the converse, inverse and contrapositive of conditional statements" +
+                "\n We will be considering the different ways of converting the conditional statement (p → q), where p is the premise and q is the antecedent \n" +
+                "\n Most examples at this level will be of the form If p, then q" +
+                "\n The CONVERSE of p → q is q → p i.e If q, then p" +
+                "\n The INVERSE of p → q is ¬p → ¬q i.e If ¬p, then ¬q" +
+                "\n The CONTRAPOSITIVE of p → q is ¬q → ¬p i.e If ¬q, then ¬p");
 
-            def.addExercise(ex1);
+                cicTopic.displayContent();
 
+                outputArea.append("Press start when you're ready to begin the exercise");
 
-            def.startExercises();
+                startButton.addActionListener(m -> {
+
+                outputArea.append("\n");
+
+                outputHandler.print("Starting exercises for: " + cicTopic.getTitle());
+
+                Exercise ex1 = new Exercise("CIC_Q1", "What is the converse of 'If Jamal comes to class, then there is a quiz'?", "C", 1, feedbackEngine, hintSystem, outputHandler);
+                ex1.addOption("A. If there is no quiz, then Jamal doesn't come to class");
+                ex1.addOption("B. If Jamal doesn't come to class, then there is no quiz");
+                ex1.addOption("C. If there is a quiz, then Jamal comes to class");
+
+                cicTopic.addExercise(ex1);
+
+                outputArea.append("\n");
+            
+                Exercise ex2 = new Exercise("CIC_Q2", "What is the inverse of 'If Jamal comes to class, then there is a quiz'?", "A", 1, feedbackEngine, hintSystem, outputHandler);
+                ex2.addOption("A. If Jamal doesn't come to class, then there is no quiz");
+                ex2.addOption("B. If there is no quiz, then Jamal doesn't come to class");
+                ex2.addOption("C. If there is a quiz, then Jamal comes to class");
+
+                cicTopic.addExercise(ex2);
+
+                outputArea.append("\n");
+
+                Exercise ex3 = new Exercise("CIC_Q3", "What is the contrapositive of 'If Jamal comes to class, then there is a quiz'?", "B", 1, feedbackEngine, hintSystem, outputHandler);
+                ex3.addOption("A. If Jamal doesn't come to class, then there is no quiz");
+                ex3.addOption("B. If there is no quiz, then Jamal doesn't come to class");
+                ex3.addOption("C. If there is a quiz, then Jamal comes to class");
+
+                cicTopic.addExercise(ex3);
+                cicTopic.startExercises();
+                });
 
             });
-        });
 
-        truthTableButton.addActionListener(i -> {
-            TruthTables tt = new TruthTables("Truth Tables", "Construct truth tables for the basic logical connectives",outputHandler, feedbackEngine,hintSystem);
+            definitionsButton.addActionListener(g -> {
+                Definitions def = new Definitions("Definitions", "Basic logical definitions", outputHandler);
+                def.addContent("A proposition must be a declarative statement");
+                def.addContent("Logical connectives include AND, OR, NOT and IF-THEN");
 
-            tt.addContent("A truth table lists all the possible truth values of statements");
-            tt.addContent("The truth value of the compound statement depends on its components.");
-            tt.addContent("Each of the main connectives has its own truth table");
+                def.displayContent();
+                outputArea.append("\n");
 
-            tt.showNot();
-            tt.showAnd();
-            tt.showOr();
-            tt.showImplication();
-            tt.showBiconditional();
-
-            tt.displayContent();
-
-            //exercises
-            outputArea.append("Press start when you're ready to begin the exercise");
+                outputArea.append("Press start when you're ready to begin the exercise");
             
-            startButton.addActionListener(m -> {
+                startButton.addActionListener(m -> {
 
-            Exercise ex1 = new Exercise(
+                Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 1, feedbackEngine, hintSystem, outputHandler);
+                ex1.addOption("A. The sky is blue");
+                ex1.addOption("B. Close the door!");
+                ex1.addOption("C. Is it raining?");
+
+                def.addExercise(ex1);
+
+
+                def.startExercises();
+
+                });
+            });
+
+            truthTableButton.addActionListener(i -> {
+                TruthTables tt = new TruthTables("Truth Tables", "Construct truth tables for the basic logical connectives",outputHandler, feedbackEngine,hintSystem);
+
+                tt.addContent("A truth table lists all the possible truth values of statements");
+                tt.addContent("The truth value of the compound statement depends on its components.");
+                tt.addContent("Each of the main connectives has its own truth table");
+
+                tt.showNot();
+                tt.showAnd();
+                tt.showOr();
+                tt.showImplication();
+                tt.showBiconditional();
+
+                tt.displayContent();
+
+                //exercises
+                outputArea.append("Press start when you're ready to begin the exercise");
+            
+                startButton.addActionListener(m -> {
+
+                Exercise ex1 = new Exercise(
                     "TT1",
-                    "In the truth table for AND, when is P^Q true?",
+                    "In the truth table for AND, when is P ∧ Q true?",
                     "A",
                     1,
                     feedbackEngine,
                     hintSystem,
                     outputHandler
-            );
-            ex1.addOption("A. Only when P and Q are both true");
-            ex1.addOption("B. When at least one is true");
-            ex1.addOption("C. When both are false");
-            ex1.addOption("D. When P is false");
-            tt.addExercise(ex1);
+                );
+                ex1.addOption("A. Only when P and Q are both true");
+                ex1.addOption("B. When at least one is true");
+                ex1.addOption("C. When both are false");
+                ex1.addOption("D. When P is false");
+                tt.addExercise(ex1);
 
-            Exercise ex2 = new Exercise(
+                Exercise ex2 = new Exercise(
                     "TT2",
                     "In the implication (P → Q), which row is false?",
                     "C",
@@ -191,14 +196,14 @@ public class TutorApp extends JFrame{
                     feedbackEngine,
                     hintSystem,
                     outputHandler
-            );
-            ex2.addOption("A. T, T");
-            ex2.addOption("B. F, T");
-            ex2.addOption("C. T, F");
-            ex2.addOption("D. F, F");
-            tt.addExercise(ex2);
+                );
+                ex2.addOption("A. T, T");
+                ex2.addOption("B. F, T");
+                ex2.addOption("C. T, F");
+                ex2.addOption("D. F, F");
+                tt.addExercise(ex2);
 
-            Exercise ex3 = new Exercise(
+                Exercise ex3 = new Exercise(
                     "TT3",
                     "In the biconditional (↔), when is the statement true?",
                     "D",
@@ -206,55 +211,55 @@ public class TutorApp extends JFrame{
                     feedbackEngine,
                     hintSystem,
                     outputHandler
-            );
-            ex3.addOption("A. Always true");
-            ex3.addOption("B. When P is true");
-            ex3.addOption("C. When Q is false");
-            ex3.addOption("D. When P and Q have the same truth value");
-            tt.addExercise(ex3);
+                );
+                ex3.addOption("A. Always true");
+                ex3.addOption("B. When P is true");
+                ex3.addOption("C. When Q is false");
+                ex3.addOption("D. When P and Q have the same truth value");
+                tt.addExercise(ex3);
 
-            tt.startExercises();
-        });
+                tt.startExercises();
+            });
             
-        });
+            });
 
 
-        logicalConnectivesButton.addActionListener(k -> {
-            LogicalConnectives lc = new LogicalConnectives (
+            logicalConnectivesButton.addActionListener(k -> {
+                LogicalConnectives lc = new LogicalConnectives (
                     "Logical Connectives",
                     "Learn NOT, OR, AND, IMPLICATION, BICONDITIONALS",
                     outputHandler
-            );
-            lc.addContent("Logical Connectives allow us to combine simple propositions into compound ones");
-            lc.addContent("Common connectives include NOT, AND, OR, Implication and Biconditional");
+                );
+                lc.addContent("Logical Connectives allow us to combine simple propositions into compound ones");
+                lc.addContent("Common connectives include NOT, AND, OR, Implication and Biconditional");
 
-            Connectives not = new Connectives("Negation", "¬", "A negation reverses the truth value of a proposition");
-            not.addExample("¬p");
-            lc.addConnective(not);
+                Connectives not = new Connectives("Negation", "¬", "A negation reverses the truth value of a proposition");
+                not.addExample("¬p");
+                lc.addConnective(not);
 
-            Connectives and = new Connectives ("Conjunction","∧", "True only if both propositions are true" );
-            and.addExample("p ∧ q");
-            lc.addConnective(and);
+                Connectives and = new Connectives ("Conjunction","∧", "True only if both propositions are true" );
+                and.addExample("p ∧ q");
+                lc.addConnective(and);
 
-            Connectives or = new Connectives("Disjunction", "∨", "Disjunctions are true if at least one of the propositions are true");
-            or.addExample("p ∨ q");
-            lc.addConnective(or);
+                Connectives or = new Connectives("Disjunction", "∨", "Disjunctions are true if at least one of the propositions are true");
+                or.addExample("p ∨ q");
+                lc.addConnective(or);
 
-            Connectives implies = new Connectives("Implication", "→", "Also known as conditional");
-            implies.addExample("p→q");
-            lc.addConnective(implies);
+                Connectives implies = new Connectives("Implication", "→", "Also known as conditional");
+                implies.addExample("p → q");
+                lc.addConnective(implies);
 
-            Connectives iff = new Connectives ("Biconditional",  "p ↔ q", "If and only if" );
-            iff.addExample(" p ↔ q ");
-            lc.addConnective(iff);
+                Connectives iff = new Connectives ("Biconditional",  "p ↔ q", "If and only if" );
+                iff.addExample(" p ↔ q ");
+                lc.addConnective(iff);
 
-            lc.displayContent();
+                lc.displayContent();
 
-            //Exercises
-            outputArea.append("Press start when you're ready to begin the exercise");
-            
-            startButton.addActionListener(m -> {
-            Exercise ex1 = new Exercise (
+                //Exercises
+                outputArea.append("Press start when you're ready to begin the exercise");
+                
+                startButton.addActionListener(m -> {
+                Exercise ex1 = new Exercise (
                     "LC_Q1",
                     "Which connective returns the opposite truth value of a proposition p",
                     "C",
@@ -264,12 +269,12 @@ public class TutorApp extends JFrame{
                     outputHandler
                     );
 
-            ex1.addOption("A: ∨ ");
-            ex1.addOption("B: ∧ ");
-            ex1.addOption("C : ¬");
-            ex1.addOption("D : ↔");
+                ex1.addOption("A: ∨ ");
+                ex1.addOption("B: ∧ ");
+                ex1.addOption("C : ¬");
+                ex1.addOption("D : ↔");
 
-            Exercise ex2 = new Exercise (
+                Exercise ex2 = new Exercise (
                     "LC_Q2",
                     "The disjunction of, p: I will buy a salad, q: i will buy meat pie is : ",
                     "A",
@@ -277,23 +282,29 @@ public class TutorApp extends JFrame{
                     feedbackEngine,
                     hintSystem,
                     outputHandler
-            );
-            ex2.addOption("A : I will buy a salad or meat pie");
-            ex2.addOption("B: I will buy a salad and meat pie");
-            ex2.addOption("C: If i buy a salad, I will buy meat pie");
+                );
+                ex2.addOption("A : I will buy a salad or meat pie");
+                ex2.addOption("B: I will buy a salad and meat pie");
+                ex2.addOption("C: If i buy a salad, I will buy meat pie");
 
-            lc.addExercise(ex1);
-            lc.addExercise(ex2);
-            lc.startExercises();
-        });
+                lc.addExercise(ex1);
+                lc.addExercise(ex2);
+                lc.startExercises();
+            });
 
-        });
+            });
 
-            } else {
-                outputArea.append("Input something in your username and level! \n");
+            expressingConditionalsButton.addActionListener(j -> {
+                ExpressingConditionals ecTopic = new ExpressingConditionals("Expressing Conditionals", "Covering the different ways to express a conditional statement", outputHandler);
 
-        }
-    });
+                ecTopic.addContent("");
+                ecTopic.displayContent();
+
+                //exercises
+                outputArea.append("Press start when you're ready to begin the exercise");
+
+
+            });
 
         setVisible(true);
     }
