@@ -72,6 +72,9 @@ public class FeedbackEngine{
         errorFeedback.put("inverse_EC_Q2", "");
         errorFeedback.put("converse_EC_Q2", "");
 
+        // Generic error
+        errorFeedback.put("generic_error", "Wrong!");
+
     }
 
     // Retrieves the exercise and the user's answer as arguments for error detection
@@ -89,3 +92,4 @@ public class FeedbackEngine{
         return errorFeedback.getOrDefault(errorType, "Wrong answer, look at your face");
     }
 }
+
