@@ -2,19 +2,31 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TutorApp extends JFrame{
+    public static TutorApp CURRENT_INSTANCE;
     private FeedbackEngine feedbackEngine;
     private HintSystem hintSystem;
     private User currentUser;
 
+    private Exercise currentExercise = null;
+    private Topic selectedTopic = null;
+
     private JTextField userNameField;
+
     private JTextArea outputArea;
+
     private JButton startButton;
     private JButton hintButton;
     private JButton CICButton, expressingConditionalsButton, definitionsButton, truthTableButton, logicalExpressionsButton, logicalConnectivesButton;
 
-    private OutputHandler outputHandler = text -> outputArea.append(text + "\n");
+    private OutputHandler outputHandler;
+
+    public void setCurrentExercise(Exercise exercise){
+        this.currentExercise = exercise;
+    }
 
     public TutorApp(){
+        CURRENT_INSTANCE = this;
+
         setTitle("Tutor App");
         setSize(800,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,6 +39,10 @@ public class TutorApp extends JFrame{
         // Initializing the START button
         startButton = new JButton("START");
         add(startButton);
+
+        // Initializing the hint button
+        hintButton = new JButton("HINT");
+        add(hintButton);
 
         // Adding the buttons for topics
         CICButton = new JButton("Converse, Inverse and Contrapositive");
@@ -51,6 +67,7 @@ public class TutorApp extends JFrame{
         outputArea = new JTextArea(35,55);
         outputArea.setEditable(false);
         add(new JScrollPane(outputArea));
+        outputHandler = text -> outputArea.append(text + "\n");
 
         // Integrating the feedback engine and the hint system
         feedbackEngine = new FeedbackEngine();
@@ -62,19 +79,38 @@ public class TutorApp extends JFrame{
         startButton.addActionListener(e -> {
 
             currentUser = new User(userNameField.getText());
-            if (!(currentUser.getUserName() == null || currentUser.getUserName().isBlank())) {
-
-                outputArea.append("Welcome " + currentUser.getUserName() + " to your Tutor App! \n");
-
-                outputArea.append("Click any topic button to start \n");
-
-                } else {
-                    outputArea.append("Input something in your username! \n");
-
+            if (currentUser.getUserName().isBlank()) {
+                outputArea.append("Input something in your username!\n");
+                return;
             }
+
+            outputArea.append("Welcome " + currentUser.getUserName() + " to your Tutor App! \n");
+            outputArea.append("Click any topic button to start \n");
+                
+            if (selectedTopic == null) {
+                    outputArea.append("Select a topic first! \n");
+                    return;    
+            }
+
+            selectedTopic.startExercises();
+        });
+
+        hintButton.addActionListener(hb -> {
+            if (currentExercise == null) {
+                outputArea.append("No active question - start a topic first \n");
+                return;
+            }
+
+            String hint = currentExercise.getHint();
+            outputArea.append("Hint: " + hint + "\n");
         });
 
                 CICButton.addActionListener(f -> {
+
+                    if (currentUser.getUserName().isBlank()) {
+                        outputArea.append("Input your username first!\n");
+                    return;
+                }
 
                 CIC cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement", outputHandler);
 
@@ -90,14 +126,6 @@ public class TutorApp extends JFrame{
                 "\n The CONTRAPOSITIVE of p → q is ¬q → ¬p i.e If ¬q, then ¬p");
 
                 cicTopic.displayContent();
-
-                outputArea.append("Press start when you're ready to begin the exercise");
-
-                startButton.addActionListener(m -> {
-
-                outputArea.append("\n");
-
-                outputHandler.print("Starting exercises for: " + cicTopic.getTitle());
 
                 Exercise ex1 = new Exercise("CIC_Q1", "What is the converse of 'If Jamal comes to class, then there is a quiz'?", "C", 1, feedbackEngine, hintSystem, outputHandler);
                 ex1.addOption("A. If there is no quiz, then Jamal doesn't come to class");
@@ -123,22 +151,24 @@ public class TutorApp extends JFrame{
                 ex3.addOption("C. If there is a quiz, then Jamal comes to class");
 
                 cicTopic.addExercise(ex3);
-                cicTopic.startExercises();
+
+                selectedTopic = cicTopic;
+                outputArea.append("\nLoaded: " + cicTopic.getTitle() + "\n");
+                outputArea.append("Press start when you're ready to begin the exercise");
                 });
 
-            });
-
             definitionsButton.addActionListener(g -> {
+
+                if (currentUser.getUserName().isBlank()) {
+                        outputArea.append("Input your username first!\n");
+                    return;
+                }
+
                 Definitions def = new Definitions("Definitions", "Basic logical definitions", outputHandler);
                 def.addContent("A proposition must be a declarative statement");
                 def.addContent("Logical connectives include AND, OR, NOT and IF-THEN");
 
                 def.displayContent();
-                outputArea.append("\n");
-
-                outputArea.append("Press start when you're ready to begin the exercise");
-            
-                startButton.addActionListener(m -> {
 
                 Exercise ex1 = new Exercise("DEF_Q1", "Which of the following is a proposition", "A", 1, feedbackEngine, hintSystem, outputHandler);
                 ex1.addOption("A. The sky is blue");
@@ -147,13 +177,18 @@ public class TutorApp extends JFrame{
 
                 def.addExercise(ex1);
 
-
-                def.startExercises();
-
-                });
+                selectedTopic = def;
+                outputArea.append("\nLoaded: " + def.getTitle() + "\n");
+                outputArea.append("Press start when you're ready to begin the exercise\n");
             });
 
             truthTableButton.addActionListener(i -> {
+
+                if (currentUser.getUserName().isBlank()) {
+                        outputArea.append("Input your username first!\n");
+                    return;
+                }
+
                 TruthTables tt = new TruthTables("Truth Tables", "Construct truth tables for the basic logical connectives",outputHandler, feedbackEngine,hintSystem);
 
                 tt.addContent("A truth table lists all the possible truth values of statements");
@@ -169,10 +204,6 @@ public class TutorApp extends JFrame{
                 tt.displayContent();
 
                 //exercises
-                outputArea.append("Press start when you're ready to begin the exercise");
-            
-                startButton.addActionListener(m -> {
-
                 Exercise ex1 = new Exercise(
                     "TT1",
                     "In the truth table for AND, when is P ∧ Q true?",
@@ -218,13 +249,19 @@ public class TutorApp extends JFrame{
                 ex3.addOption("D. When P and Q have the same truth value");
                 tt.addExercise(ex3);
 
-                tt.startExercises();
+                selectedTopic = tt;
+                outputArea.append("\nLoaded: " + tt.getTitle() + "\n");
+                outputArea.append("Press start when you're ready to begin the exercise");
             });
             
-            });
-
 
             logicalConnectivesButton.addActionListener(k -> {
+
+                if (currentUser.getUserName().isBlank()) {
+                        outputArea.append("Input your username first!\n");
+                    return;
+                }
+
                 LogicalConnectives lc = new LogicalConnectives (
                     "Logical Connectives",
                     "Learn NOT, OR, AND, IMPLICATION, BICONDITIONALS",
@@ -256,9 +293,6 @@ public class TutorApp extends JFrame{
                 lc.displayContent();
 
                 //Exercises
-                outputArea.append("Press start when you're ready to begin the exercise");
-                
-                startButton.addActionListener(m -> {
                 Exercise ex1 = new Exercise (
                     "LC_Q1",
                     "Which connective returns the opposite truth value of a proposition p",
@@ -289,20 +323,61 @@ public class TutorApp extends JFrame{
 
                 lc.addExercise(ex1);
                 lc.addExercise(ex2);
-                lc.startExercises();
+                
+                selectedTopic = lc;
+                outputArea.append("\nLoaded: " + lc.getTitle() + "\n");
+                outputArea.append("Press start when you're ready to begin the exercise");
             });
 
-            });
+            expressingConditionalsButton.addActionListener(ec -> {
 
-            expressingConditionalsButton.addActionListener(j -> {
+                if (currentUser.getUserName().isBlank()) {
+                        outputArea.append("Input your username first!\n");
+                    return;
+                }
+
                 ExpressingConditionals ecTopic = new ExpressingConditionals("Expressing Conditionals", "Covering the different ways to express a conditional statement", outputHandler);
 
-                ecTopic.addContent("");
+                ecTopic.addContent("The different ways of expressing p → q are: ");
+                ecTopic.addContent("- If p, then q");
+                ecTopic.addContent("- q whenever p");
+                ecTopic.addContent("- p implies q");
+                ecTopic.addContent("- p only if q");
+                ecTopic.addContent("- q if p");
+                ecTopic.addContent("- q unless ¬p");
+                ecTopic.addContent("- q unless ¬p");
+                ecTopic.addContent("- A necessary condition for p is q");
+                ecTopic.addContent("- A sufficient condition for q is p");
+
+                ecTopic.addContent("\n");
+
+                ecTopic.addContent("You can express the biconditional p ↔ q with: ");
+                ecTopic.addContent("- p if and only if q and conversely");
+                ecTopic.addContent("- p iff q");
+
+                ecTopic.addContent("\n Always remember to pick out the parts and slot them in the various forms accordingly! \n");
+                
                 ecTopic.displayContent();
 
                 //exercises
-                outputArea.append("Press start when you're ready to begin the exercise");
 
+                Exercise ex1 = new Exercise("EC_Q1", "Rewrite 'A shape is a square if it is a rectangle with four equal sides' in the 'if ..., then ...' form", "C", 1, feedbackEngine, hintSystem, outputHandler);
+                ex1.addOption("A. If a shape is not a square, then it is not a rectangle");
+                ex1.addOption("B. If a shape is a square, then it is a rectangle with four sides");
+                ex1.addOption("C. If a rectangle has four equal sides, then it is a square");
+
+                ecTopic.addExercise(ex1);
+
+                Exercise ex2 = new Exercise("EC_Q2", "Rewrite 'You will pass the course unless you fail the final exam' in the 'if ..., then ...' form", "B", 1, feedbackEngine, hintSystem, outputHandler);
+                ex2.addOption("A. If you fail the final exam, you will not pass the course");
+                ex2.addOption("B. If you do not fail the final exam, then you will pass the course");
+                ex2.addOption("C. If you pass the course, then you must have not failed the final exam");
+
+                ecTopic.addExercise(ex2);
+
+                selectedTopic = ecTopic;
+                outputArea.append("\nLoaded: " + ecTopic.getTitle() + "\n");
+                outputArea.append("Press start when you're ready to begin the exercise");
 
             });
 
