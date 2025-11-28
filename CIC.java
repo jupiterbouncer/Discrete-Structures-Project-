@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class CIC {
+public class CIC implements Topic{
     // Topic covering the converse, inverse, and contrapositive of a conditional
 
     // Basic details
@@ -15,7 +15,7 @@ public class CIC {
 
     // Feedback/tracking
     private boolean completed;
-    private int hintCount;
+    private static int hintCount = 2;
 
     private OutputHandler outputHandler;
 
@@ -44,6 +44,10 @@ public class CIC {
         return this.totalPoints;
     }
 
+    public int getHintCount(){
+        return this.hintCount;
+    }
+
     // Add lesson material
     public void addContent(String text){
         this.content.add(text);
@@ -60,21 +64,23 @@ public class CIC {
     // Run exercises
     public void startExercises(){
         outputHandler.print("Starting exercises for: " + title);
+
         for (Exercise exercise : exercises){
             exercise.displayQuestion();
-
+        
             boolean correct = exercise.checkAnswer();
 
             if (correct) {
                 score += exercise.getPoints();
             } else {
-                outputHandler.print("Incorrect. Hint: " + exercise.getHint());
+                outputHandler.print("Incorrect");
             }
 
             outputHandler.print("\n");
         }
+
         this.completed = true;
-        outputHandler.print("You scored " + score + "/" + totalPoints + "(" + ((int) score/totalPoints * 100) + "%)");
+        outputHandler.print("You scored " + score + "/" + totalPoints);
     }
 
     // Progress calculation
