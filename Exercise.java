@@ -46,13 +46,16 @@ public class Exercise {
 
     // MCQ format
     public void displayQuestion(){
-       outputHandler.print("Question: " + question); 
-       if (!options.isEmpty()){
-        for (String option: options){
-            outputHandler.print(option);
+
+        TutorApp.CURRENT_INSTANCE.setCurrentExercise(this);
+
+        outputHandler.print("\nQuestion: " + question); 
+        if (!options.isEmpty()){
+            for (String option: options){
+                outputHandler.print(option);
+            }
         }
     }
-}
 
     // Collecting a user's answer
     public boolean checkAnswer(){
@@ -60,7 +63,10 @@ public class Exercise {
         answered = false;
         while (!answered) {
             userAnswer = JOptionPane.showInputDialog(null, "Enter the letter corresponding to your answer: ");
-            answered = true;
+            if (userAnswer == null){
+                outputHandler.print("No answer entered. Marked as failed");
+                answered = false;
+            } else answered = true;
         }
 
         if (userAnswer.equalsIgnoreCase(correctAnswer)){
@@ -69,7 +75,8 @@ public class Exercise {
         }
 
         outputHandler.print("Wrong answer");
-        // Refers to the hasmap containing the exercise ID and the user answer
+        
+        // Refers to the hashmap containing the exercise ID and the user answer
         outputHandler.print(feedbackEngine.analyzeError(this, userAnswer));
         return false;
     }
