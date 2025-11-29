@@ -87,7 +87,7 @@ public class LogicalConnectives  {
             outputHandler.print("\n");
         }
         this.completed = true;
-        outputHandler.print("Your score: " + score + "/" + totalPoints);
+        outputHandler.print("Your score: " + score + "/" + totalPoints + " in " + getTitle() + " exercises");
 
 
 
