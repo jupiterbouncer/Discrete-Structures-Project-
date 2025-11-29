@@ -18,6 +18,7 @@ public class Exercise {
     // System integration
     private FeedbackEngine feedbackEngine;
     private HintSystem hintSystem;
+    private int hintIndex = 0;
 
     private OutputHandler outputHandler;
 
@@ -62,131 +63,147 @@ public class Exercise {
 
         answered = false;
         while (!answered) {
-            userAnswer = JOptionPane.showInputDialog(null, "Enter the letter corresponding to your answer: ");
+            userAnswer = JOptionPane.showInputDialog(null, "Enter the letter corresponding to your answer within the options: ");
+            userAnswer.trim().toUpperCase();
+
             if (userAnswer == null){
                 outputHandler.print("No answer entered. Marked as failed");
-                answered = false;
+                answered = true;
+                return false;
+
             } else answered = true;
         }
 
         if (userAnswer.equalsIgnoreCase(correctAnswer)){
             outputHandler.print("Correct");
             return true;
-        }
 
-        outputHandler.print("Wrong answer");
-        
-        // Refers to the hashmap containing the exercise ID and the user answer
-        outputHandler.print(feedbackEngine.analyzeError(this, userAnswer));
-        return false;
+        } else {
+
+            // Refers to the hashmap containing the exercise ID and the user answer
+            outputHandler.print("Incorrect. " + feedbackEngine.analyzeError(this, userAnswer));
+            return false;
+    }
     }
 
     // Retrieving a hint
-    public String getHint(){
-        return hintSystem.getHint(exerciseID);
+    public String getHint(HintSystem hintSystem){
+        String hint = hintSystem.getHint(exerciseID, hintIndex);
+        if (hintIndex < hintSystem.totalHints(exerciseID) - 1) hintIndex++;
+
+        return hint;
     }
 
     // This is used in the FeedbackEngine to provide the appropriate suggestion to a user's error
     public String detectErrorType(String userAnswer){
+        userAnswer = userAnswer.trim().toUpperCase();
 
         // For question 1 of the CIC topic
-        if (exerciseID.contains("CIC_Q1") && userAnswer.contains("A")){
+        if (exerciseID.contains("CIC_Q1") && userAnswer.equals("A")){
             return "contrapositive_CIC_Q1";
         }
-        if (exerciseID.contains("CIC_Q1") && userAnswer.contains("B")){
+        if (exerciseID.contains("CIC_Q1") && userAnswer.equals("B")){
             return "inverse_CIC_Q1";
         }
 
         // For question 2 of the CIC topic
-        if (exerciseID.contains("CIC_Q2") && userAnswer.contains("B")){
+        if (exerciseID.contains("CIC_Q2") && userAnswer.equals("B")){
             return "contrapositive_CIC_Q2";
         }
-        if (exerciseID.contains("CIC_Q2") && userAnswer.contains("C")){
+        if (exerciseID.contains("CIC_Q2") && userAnswer.equals("C")){
             return "converse_CIC_Q2";
         }
 
         // For question 3 of the CIC topic
-        if (exerciseID.contains("CIC_Q3") && userAnswer.contains("A")){
+        if (exerciseID.contains("CIC_Q3") && userAnswer.equals("A")){
             return "inverse_CIC_Q3";
         }
-        if (exerciseID.contains("CIC_Q3") && userAnswer.contains("C")){
+        if (exerciseID.contains("CIC_Q3") && userAnswer.equals("C")){
             return "converse_CIC_Q3";
         }
 
         // For question 1 of the Definitions topic
-        if (exerciseID.contains("DEF_Q1") && userAnswer.contains("B")){
+        if (exerciseID.contains("DEF_Q1") && userAnswer.equals("B")){
             return "command_DEF_Q1";
         }
-        if (exerciseID.contains("DEF_Q1") && userAnswer.contains("C")){
+        if (exerciseID.contains("DEF_Q1") && userAnswer.equals("C")){
             return "question_DEF_Q1";
         }
 
+        // For question 2 of the Definitions topic
+        if (exerciseID.contains("DEF_Q2") && userAnswer.equals("A")){
+            return "height_DEF_Q2";
+        }
+        if (exerciseID.contains("DEF_Q2") && userAnswer.equals("C")){
+            return "messi_DEF_Q2";
+        }
+
         // For question 1 of the TruthTable topic
-        if (exerciseID.contains("TT_Q1") && userAnswer.contains("B")){
+        if (exerciseID.contains("TT_Q1") && userAnswer.equals("B")){
             return "onetrue_TT_Q1";
         }
-        if (exerciseID.contains("TT_Q1") && userAnswer.contains("C")){
+        if (exerciseID.contains("TT_Q1") && userAnswer.equals("C")){
             return "bothfalse_TT_Q1";
         }
-        if (exerciseID.contains("TT_Q1") && userAnswer.contains("D")){
+        if (exerciseID.contains("TT_Q1") && userAnswer.equals("D")){
             return "falsep_TT_Q1";
         }
 
         // For question 2 of the TruthTable topic
-        if (exerciseID.contains("TT_Q2") && userAnswer.contains("A")){
+        if (exerciseID.contains("TT_Q2") && userAnswer.equals("A")){
             return "TT_TT_Q2";
         }
-        if (exerciseID.contains("TT_Q2") && userAnswer.contains("B")){
+        if (exerciseID.contains("TT_Q2") && userAnswer.equals("B")){
             return "FT_TT_Q2";
         }
-        if (exerciseID.contains("TT_Q2") && userAnswer.contains("D")){
+        if (exerciseID.contains("TT_Q2") && userAnswer.equals("D")){
             return "FF_TT_Q2";
         }
 
         // For question 3 of the TruthTable topic
-        if (exerciseID.contains("TT_Q3") && userAnswer.contains("A")){
+        if (exerciseID.contains("TT_Q3") && userAnswer.equals("A")){
             return "alwaystrue_TT_Q3";
         }
-        if (exerciseID.contains("TT_Q3") && userAnswer.contains("B")){
+        if (exerciseID.contains("TT_Q3") && userAnswer.equals("B")){
             return "truep_TT_Q3";
         }
-        if (exerciseID.contains("TT_Q3") && userAnswer.contains("C")){
+        if (exerciseID.contains("TT_Q3") && userAnswer.equals("C")){
             return "falseq_TT_Q3";
         }
 
         // For question 1 of the LogicalConnectives topic
-        if (exerciseID.contains("LC_Q1") && userAnswer.contains("A")){
+        if (exerciseID.contains("LC_Q1") && userAnswer.equals("A")){
             return "conjunction_LC_Q1";
         }
-        if (exerciseID.contains("LC_Q1") && userAnswer.contains("B")){
+        if (exerciseID.contains("LC_Q1") && userAnswer.equals("B")){
             return "disjunction_LC_Q1";
         }
-        if (exerciseID.contains("LC_Q1") && userAnswer.contains("D")){
+        if (exerciseID.contains("LC_Q1") && userAnswer.equals("D")){
             return "biconditional_LC_Q1";
         }
 
         // For question 2 of the LogicalConnectives topic
 
-        if (exerciseID.contains("LC_Q2") && userAnswer.contains("B")){
+        if (exerciseID.contains("LC_Q2") && userAnswer.equals("B")){
             return "and_LC_Q2";
         }
-        if (exerciseID.contains("LC_Q2") && userAnswer.contains("C")){
+        if (exerciseID.contains("LC_Q2") && userAnswer.equals("C")){
             return "conditional_LC_Q2";
         }
 
         // For question 1 of the ExpressingConditionals topic
-        if (exerciseID.contains("EC_Q1") && userAnswer.contains("A")){
+        if (exerciseID.contains("EC_Q1") && userAnswer.equals("A")){
             return "inverse_EC_Q1";
         }
-        if (exerciseID.contains("EC_Q1") && userAnswer.contains("B")){
+        if (exerciseID.contains("EC_Q1") && userAnswer.equals("B")){
             return "converse_EC_Q1";
         }
 
         // For question 2 of the ExpressingConditionals topic
-        if (exerciseID.contains("EC_Q2") && userAnswer.contains("A")){
+        if (exerciseID.contains("EC_Q2") && userAnswer.equals("A")){
             return "inverse_EC_Q2";
         }
-        if (exerciseID.contains("EC_Q2") && userAnswer.contains("c")){
+        if (exerciseID.contains("EC_Q2") && userAnswer.equals("C")){
             return "converse_EC_Q2";
         }
 
@@ -201,6 +218,13 @@ public class Exercise {
     // Cumulating the total points
     public int getPoints(){
         return points;
+    }
+
+    public void requestHint(HintSystem hintSystem, OutputHandler output){
+        String hint = hintSystem.getHint(exerciseID, hintIndex);
+        output.print(hint);
+
+        if(hintIndex < hintSystem.totalHints(exerciseID) - 1) hintIndex++;
     }
 }
 
