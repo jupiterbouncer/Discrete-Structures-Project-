@@ -12,6 +12,8 @@ public class TutorApp extends JFrame{
 
     private JTextField userNameField;
 
+    private JLabel scoreLabel;
+
     private JTextArea outputArea;
 
     private JButton startButton;
@@ -35,6 +37,9 @@ public class TutorApp extends JFrame{
         add(new JLabel("Username: "));
         userNameField = new JTextField(15);
         add(userNameField);
+
+        scoreLabel = new JLabel("Score: 0 points");
+        add(scoreLabel);
 
         // Initializing the START button
         startButton = new JButton("START");
@@ -64,7 +69,7 @@ public class TutorApp extends JFrame{
         add(logicalConnectivesButton);
 
         // Output area
-        outputArea = new JTextArea(35,55);
+        outputArea = new JTextArea(35,85);
         outputArea.setEditable(false);
         add(new JScrollPane(outputArea));
         outputHandler = text -> outputArea.append(text + "\n");
@@ -92,6 +97,7 @@ public class TutorApp extends JFrame{
             }
 
             selectedTopic.startExercises();
+
             outputArea.append("Click any topic button to start \n");
         });
         
@@ -101,8 +107,6 @@ public class TutorApp extends JFrame{
                 outputArea.append("No active question - select a topic first \n");
                 return;
             }
-
-            currentExercise.requestHint(hintSystem, outputHandler);
             String hint = currentExercise.getHint(hintSystem);
             outputArea.append("Hint: " + hint + "\n");
         });
@@ -115,6 +119,7 @@ public class TutorApp extends JFrame{
                 }
 
                 CIC cicTopic = new CIC("Converse, Inverse and Contrapositives", "Dealing with converse, inverse and conditionals of a conditional statement", outputHandler);
+                selectedTopic = cicTopic;
 
                 outputArea.append("\n " + cicTopic.getTitle() + " \n" + cicTopic.getDescription() + " \n");
             
@@ -154,7 +159,6 @@ public class TutorApp extends JFrame{
 
                 cicTopic.addExercise(ex3);
 
-                selectedTopic = cicTopic;
                 outputArea.append("\nLoaded: " + cicTopic.getTitle() + "\n");
                 outputArea.append("Press start when you're ready to begin the exercise");
                 });
@@ -167,8 +171,14 @@ public class TutorApp extends JFrame{
                 }
 
                 Definitions def = new Definitions("Definitions", "Basic logical definitions", outputHandler);
+                selectedTopic = def;
+
                 def.addContent("A proposition must be a declarative statement");
-                def.addContent("Logical connectives include AND, OR, NOT and IF-THEN");
+                def.addContent("A proposition cannot be a question nor can it be a command");
+                def.addContent("A proposition must be a declarative statement, hence it must always evaluate to either true or false");
+                def.addContent("Examples of propositions include: '1 + 1 = 2', ' Ghana is in America'. ");
+                def.addContent("The following are not propositions: 'x + y = z', 'How much for this bread?'. ");
+                
 
                 def.displayContent();
 
@@ -179,7 +189,13 @@ public class TutorApp extends JFrame{
 
                 def.addExercise(ex1);
 
-                selectedTopic = def;
+                Exercise ex2 = new Exercise("DEF_Q2", "Which of the following is NOT a proposition", "B", 1, feedbackEngine, hintSystem, outputHandler);
+                ex1.addOption("A. I am 20 feet tall");
+                ex1.addOption("B. x + 3 = y");
+                ex1.addOption("C. Lionel Messi plays basketball");
+
+                def.addExercise(ex2);
+
                 outputArea.append("\nLoaded: " + def.getTitle() + "\n");
                 outputArea.append("Press start when you're ready to begin the exercise\n");
             });
@@ -192,6 +208,7 @@ public class TutorApp extends JFrame{
                 }
 
                 TruthTables tt = new TruthTables("Truth Tables", "Construct truth tables for the basic logical connectives",outputHandler, feedbackEngine,hintSystem);
+                selectedTopic = tt;
 
                 tt.addContent("A truth table lists all the possible truth values of statements");
                 tt.addContent("The truth value of the compound statement depends on its components.");
@@ -251,7 +268,6 @@ public class TutorApp extends JFrame{
                 ex3.addOption("D. When P and Q have the same truth value");
                 tt.addExercise(ex3);
 
-                selectedTopic = tt;
                 outputArea.append("\nLoaded: " + tt.getTitle() + "\n");
                 outputArea.append("Press start when you're ready to begin the exercise");
             });
@@ -292,6 +308,8 @@ public class TutorApp extends JFrame{
                 iff.addExample(" p ↔ q ");
                 lc.addConnective(iff);
 
+                selectedTopic = lc;
+
                 lc.displayContent();
 
                 //Exercises
@@ -312,7 +330,7 @@ public class TutorApp extends JFrame{
 
                 Exercise ex2 = new Exercise (
                     "LC_Q2",
-                    "The disjunction of, p: I will buy a salad, q: i will buy meat pie is : ",
+                    "The disjunction of, p: I will buy a salad, q: I will buy meat pie, is?",
                     "A",
                     1,
                     feedbackEngine,
@@ -326,7 +344,6 @@ public class TutorApp extends JFrame{
                 lc.addExercise(ex1);
                 lc.addExercise(ex2);
                 
-                selectedTopic = lc;
                 outputArea.append("\nLoaded: " + lc.getTitle() + "\n");
                 outputArea.append("Press start when you're ready to begin the exercise");
             });
@@ -339,6 +356,7 @@ public class TutorApp extends JFrame{
                 }
 
                 ExpressingConditionals ecTopic = new ExpressingConditionals("Expressing Conditionals", "Covering the different ways to express a conditional statement", outputHandler);
+                selectedTopic = ecTopic;
 
                 ecTopic.addContent("The different ways of expressing p → q are: ");
                 ecTopic.addContent("- If p, then q");
@@ -377,7 +395,6 @@ public class TutorApp extends JFrame{
 
                 ecTopic.addExercise(ex2);
 
-                selectedTopic = ecTopic;
                 outputArea.append("\nLoaded: " + ecTopic.getTitle() + "\n");
                 outputArea.append("Press start when you're ready to begin the exercise");
 
