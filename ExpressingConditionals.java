@@ -87,13 +87,7 @@ public class ExpressingConditionals implements Topic {
             }
 
             this.completed = true;
-
-            if (totalPoints > 0) { // Prevents zero division error
-                int percentage = (int) ((score * 100.0) / totalPoints);
-                outputHandler.print("You scored " + score + "/" + totalPoints + " (" + percentage + "%)");
-            } else {
-                outputHandler.print("You scored " + score + "/" + totalPoints);
-            }
+            outputHandler.print("You scored " + score + "/" + totalPoints + " in " + getTitle() + " exercises");
         }
 
     // Progress calculation
