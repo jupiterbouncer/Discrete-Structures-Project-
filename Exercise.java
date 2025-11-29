@@ -62,16 +62,12 @@ public class Exercise {
     public boolean checkAnswer(){
 
         answered = false;
-        while (!answered) {
+        if (!answered) {
             userAnswer = JOptionPane.showInputDialog(null, "Enter the letter corresponding to your answer within the options: ");
             userAnswer.trim().toUpperCase();
 
-            if (userAnswer == null){
-                outputHandler.print("No answer entered. Marked as failed");
-                answered = true;
-                return false;
-
-            } else answered = true;
+            if (userAnswer == null) outputHandler.print("No answer entered. Marked as failed");
+            else answered = true;
         }
 
         if (userAnswer.equalsIgnoreCase(correctAnswer)){
@@ -89,6 +85,7 @@ public class Exercise {
     // Retrieving a hint
     public String getHint(HintSystem hintSystem){
         String hint = hintSystem.getHint(exerciseID, hintIndex);
+        
         if (hintIndex < hintSystem.totalHints(exerciseID) - 1) hintIndex++;
 
         return hint;
@@ -218,13 +215,6 @@ public class Exercise {
     // Cumulating the total points
     public int getPoints(){
         return points;
-    }
-
-    public void requestHint(HintSystem hintSystem, OutputHandler output){
-        String hint = hintSystem.getHint(exerciseID, hintIndex);
-        output.print(hint);
-
-        if(hintIndex < hintSystem.totalHints(exerciseID) - 1) hintIndex++;
     }
 }
 
