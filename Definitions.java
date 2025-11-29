@@ -45,11 +45,9 @@ public class Definitions implements Topic{
 
     // Display lesson material
     public void displayContent(){
-        int count = 1;
         outputHandler.print("===" + title + "===");
         for (String section : content){
-            outputHandler.print(count + "." + section);
-            count++;
+            outputHandler.print(section);
         }
     }
 
@@ -70,7 +68,7 @@ public class Definitions implements Topic{
             outputHandler.print("\n");
         }
         this.completed = true;
-        outputHandler.print("You scored " + score + "/" + totalPoints);
+        outputHandler.print("You scored " + score + "/" + totalPoints + " in " + getTitle() + " exercises");
     }
 
     // Progress calculation
