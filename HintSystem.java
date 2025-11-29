@@ -9,63 +9,64 @@ public class HintSystem {
         hintBank = new HashMap<>();
 
         hintBank.put("CIC_Q1", new String[]{
-            "Hint 1: The inverse negates both p and q (p → q becomes ¬p → ¬q)",
-            "Hint 2: The contrapositive negates AND switches the componenets (p → q becomes ¬q → ¬p).",
-            "Hint 3: For 'if p then q', contrapositive = 'if not q then p'"
+            "Hint: The inverse negates both p and q (p → q becomes ¬p → ¬q)",
+            "Hint: The contrapositive negates AND switches the components (p → q becomes ¬q → ¬p).",
+            "Hint: For 'if p then q', contrapositive = 'if not q then p'"
         });
 
         hintBank.put("CIC_Q3", new String[]{
-            "Hint 1: The inverse negates both p and q (p → q becomes ¬p → ¬q)",
-            "Hint 2: The contrapositive negates AND switches the componenets (p → q becomes ¬q → ¬p).",
-            "Hint 3: For 'if p then q', contrapositive = 'if not q then p'"
+            "Hint: The inverse negates both p and q (p → q becomes ¬p → ¬q)",
+            "Hint: The contrapositive negates AND switches the componenets (p → q becomes ¬q → ¬p).",
+            "Hint: For 'if p then q', contrapositive = 'if not q then p'"
         });
 
         hintBank.put("CIC_Q2", new String[]{
-            "Hint 1: The inverse negates both p and q (p → q becomes ¬p → ¬q)",
-            "Hint 2: The contrapositive negates AND switches the componenets (p → q becomes ¬q → ¬p).",
-            "Hint 3: For 'if p then q', contrapositive = 'if not q then p'"
+            "Hint: The inverse negates both p and q (p → q becomes ¬p → ¬q)",
+            "Hint: The contrapositive negates AND switches the componenets (p → q becomes ¬q → ¬p).",
+            "Hint: For 'if p then q', contrapositive = 'if not q then p'"
+        });
+
+        hintBank.put("DEF_Q1", new String[]{
+            "Hint: Propositions must evaluate to either true or false"
+        });
+
+        hintBank.put("DEF_Q2", new String[]{
+            "Hint: Propositions must evaluate to either true or false"
         });
 
         hintBank.put("TT_Q1", new String[]{
-            "Hint 1: Remember, AND is true only when both inputs are true",
-            "Hint 2: Remember, OR is false only when both inputs are false"
+            "Hint: Remember, AND is true only when both inputs are true",
+            "Hint: Remember, OR is false only when both inputs are false"
         });
 
         hintBank.put("TT_Q2", new String[]{
-            "Hint 1: Remember, AND is true only when both inputs are true",
-            "Hint 2: Remember, OR is false only when both inputs are false"
+            "Hint: Remember, AND is true only when both inputs are true",
+            "Hint: Remember, OR is false only when both inputs are false"
         });
 
         hintBank.put("TT_Q3", new String[]{
-            "Hint 1: Remember, AND is true only when both inputs are true",
-            "Hint 2: Remember, OR is false only when both inputs are false"
+            "Hint: Remember, AND is true only when both inputs are true",
+            "Hint: Remember, OR is false only when both inputs are false"
         });
 
         hintBank.put("LC_Q1", new String[]{
-            "Hint 1: ",
-            "Hint 2: ",
-            "Hint 3: "  
+            "Hint: Which logical connective is unitary?"
         });
 
         hintBank.put("LC_Q2", new String[]{
-            "Hint 1: ",
-            "Hint 2: ",
-            "Hint 3: "
+            "Hint: Pick out the propositions you can find in this sentence",
+            "Hint: Disjunction usually possesses 'or' in its statements"
         });
 
         hintBank.put("EC_Q1", new String[]{
-            "Hint 1: ",
-            "Hint 2: ",
-            "Hint 3: "
+            "Hint: Try remembering the different ways of arranging p → q",
+            "Hint: q if p, is one of the ways of expressing p → q"
         });
 
         hintBank.put("EC_Q2", new String[]{
-            "Hint 1: ",
-            "Hint 2: ",
-            "Hint 3: "
+            "Hint: Try rearranging the statements as blocks",
+            "Hint: q unless not p, is one of the ways of expressing p → q"
         });
-
-        // add a new key with their possible hints
 
     }
 
@@ -74,7 +75,7 @@ public class HintSystem {
 
         String[] hints = hintBank.get(exerciseID);
         
-        if (hintIndex < 0 || hintIndex >= hints.length) return "No more hints";
+        if (hintIndex < 0 || hintIndex > hints.length) return "No more hints";
 
         return hints[hintIndex];
     }
@@ -87,7 +88,7 @@ public class HintSystem {
         if (exerciseID.contains("CIC")) return 3;
         if (exerciseID.contains("TT")) return 2;
         if (exerciseID.contains("DEF")) return 1;
-        if (exerciseID.contains("LC")) return 3;
+        if (exerciseID.contains("LC")) return 1;
 
         else return 3;
 
