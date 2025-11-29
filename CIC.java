@@ -18,6 +18,9 @@ public class CIC implements Topic{
     private static int hintCount = 2;
 
     private OutputHandler outputHandler;
+    private FeedbackEngine feedbackEngine;
+    private HintSystem hintSystem;
+    private ScoreTracker scoreTracker;
 
     // Constructor
     public CIC(String title, String description, OutputHandler outputHandler){
@@ -70,17 +73,13 @@ public class CIC implements Topic{
         
             boolean correct = exercise.checkAnswer();
 
-            if (correct) {
-                score += exercise.getPoints();
-            } else {
-                outputHandler.print("Incorrect");
-            }
+            if (correct) score += exercise.getPoints();
 
             outputHandler.print("\n");
         }
 
         this.completed = true;
-        outputHandler.print("You scored " + score + "/" + totalPoints);
+        outputHandler.print("You scored " + score + "/" + totalPoints + " in " + getTitle() + " exercises");
     }
 
     // Progress calculation
