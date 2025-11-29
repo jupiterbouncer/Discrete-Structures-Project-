@@ -12,18 +12,16 @@ public class TutorApp extends JFrame{
 
     private JTextField userNameField;
 
-    private JLabel scoreLabel;
-
     private JTextArea outputArea;
 
     private JButton startButton;
     private JButton hintButton;
-    private JButton CICButton, expressingConditionalsButton, definitionsButton, truthTableButton, logicalExpressionsButton, logicalConnectivesButton;
+    private JButton CICButton, expressingConditionalsButton, definitionsButton, truthTableButton, logicalConnectivesButton;
 
     private OutputHandler outputHandler;
 
-    public void setCurrentExercise(Exercise exercise){
-        this.currentExercise = exercise;
+    public void setCurrentExercise(Exercise currentExercise){
+        this.currentExercise = currentExercise;
     }
 
     public TutorApp(){
@@ -37,9 +35,6 @@ public class TutorApp extends JFrame{
         add(new JLabel("Username: "));
         userNameField = new JTextField(15);
         add(userNameField);
-
-        scoreLabel = new JLabel("Score: 0 points");
-        add(scoreLabel);
 
         // Initializing the START button
         startButton = new JButton("START");
@@ -61,9 +56,6 @@ public class TutorApp extends JFrame{
 
         truthTableButton = new JButton("Truth Table");
         add(truthTableButton);
-
-        logicalExpressionsButton = new JButton("Logical Expressions");
-        add(logicalExpressionsButton);
 
         logicalConnectivesButton = new JButton("Logical Connectives");
         add(logicalConnectivesButton);
@@ -103,12 +95,12 @@ public class TutorApp extends JFrame{
         
 
         hintButton.addActionListener(hb -> {
-            if (currentExercise == null) {
-                outputArea.append("No active question - select a topic first \n");
+            if (selectedTopic == null) {
+                outputArea.append("No active topic - select a topic first \n");
                 return;
             }
             String hint = currentExercise.getHint(hintSystem);
-            outputArea.append("Hint: " + hint + "\n");
+            outputArea.append(hint + "\n\n");
         });
 
                 CICButton.addActionListener(f -> {
@@ -160,7 +152,9 @@ public class TutorApp extends JFrame{
                 cicTopic.addExercise(ex3);
 
                 outputArea.append("\nLoaded: " + cicTopic.getTitle() + "\n");
-                outputArea.append("Press start when you're ready to begin the exercise");
+
+                TutorApp.CURRENT_INSTANCE.setCurrentExercise(ex1);
+                outputArea.append("\nPress start when you're ready to begin the exercise\n");
                 });
 
             definitionsButton.addActionListener(g -> {
@@ -197,7 +191,10 @@ public class TutorApp extends JFrame{
                 def.addExercise(ex2);
 
                 outputArea.append("\nLoaded: " + def.getTitle() + "\n");
-                outputArea.append("Press start when you're ready to begin the exercise\n");
+
+                TutorApp.CURRENT_INSTANCE.setCurrentExercise(ex1);
+
+                outputArea.append("\nPress start when you're ready to begin the exercise\n");
             });
 
             truthTableButton.addActionListener(i -> {
@@ -269,7 +266,8 @@ public class TutorApp extends JFrame{
                 tt.addExercise(ex3);
 
                 outputArea.append("\nLoaded: " + tt.getTitle() + "\n");
-                outputArea.append("Press start when you're ready to begin the exercise");
+                TutorApp.CURRENT_INSTANCE.setCurrentExercise(ex1);
+                outputArea.append("\nPress start when you're ready to begin the exercise\n");
             });
             
 
@@ -345,7 +343,8 @@ public class TutorApp extends JFrame{
                 lc.addExercise(ex2);
                 
                 outputArea.append("\nLoaded: " + lc.getTitle() + "\n");
-                outputArea.append("Press start when you're ready to begin the exercise");
+                TutorApp.CURRENT_INSTANCE.setCurrentExercise(ex1);
+                outputArea.append("\nPress start when you're ready to begin the exercise\n");
             });
 
             expressingConditionalsButton.addActionListener(ec -> {
@@ -375,7 +374,7 @@ public class TutorApp extends JFrame{
                 ecTopic.addContent("- p if and only if q and conversely");
                 ecTopic.addContent("- p iff q");
 
-                ecTopic.addContent("\n Always remember to pick out the parts and slot them in the various forms accordingly! \n");
+                ecTopic.addContent("\nAlways remember to pick out the parts and slot them in the various forms accordingly! \n");
                 
                 ecTopic.displayContent();
 
@@ -396,6 +395,7 @@ public class TutorApp extends JFrame{
                 ecTopic.addExercise(ex2);
 
                 outputArea.append("\nLoaded: " + ecTopic.getTitle() + "\n");
+                TutorApp.CURRENT_INSTANCE.setCurrentExercise(ex1);
                 outputArea.append("Press start when you're ready to begin the exercise");
 
             });
