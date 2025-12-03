@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-public class LogicalConnectives  {
+public class LogicalConnectives implements Topic{
 //Topic covering the logical connectives
 
     //details
@@ -82,7 +82,7 @@ public class LogicalConnectives  {
             if (correct) {
                 score += exercise.getPoints();
             } else {
-                outputHandler.print("Incorrect. Hint: " + exercise.getHint());
+                outputHandler.print("Incorrect");
             }
             outputHandler.print("\n");
         }
