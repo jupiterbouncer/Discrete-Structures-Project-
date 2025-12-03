@@ -115,7 +115,7 @@ public class TruthTables implements Topic {
             if (correct) {
                 score += ex.getPoints();
             } else {
-                outputHandler.print("Incorrect. Hint: " + ex.getHint());
+                outputHandler.print("Incorrect");
             }
         }
         outputHandler.print("\nYour score : " + score + "/" + totalPoints);
