@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class TruthTables {
+public class TruthTables implements Topic {
     private String title;
     private String description;
 
